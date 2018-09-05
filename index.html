@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>The Jammer</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <link rel="stylesheet" type="text/css" href="./css/common.css" />
+</head>
+
+<body>
+  <div id="bodyContainer">
+    <header>
+        <img id="logo" src="images/jammer_logo.png" alt="Logo of The Jammer">
+        <h1 id="pageTitle">The Jammer</h1>
+        <span id="slogan">Connecting people since 2017</span>
+    </header>
+
+    <main>
+      
+      <section id="welcomeSection" class="mainSections">
+        <h2>
+          Be a part of the community and make the world a more conscious place to live in!
+        </h2>
+        <ul>
+          <li>Follow the people you like and admire.</li>
+          <li>Build up your reputation by sharing your ideas and by having followers.</li>
+          <li>Comment on the topics of your interest.</li>
+        </ul>
+      </section>
+
+      <section id="loginRegistrationSection" class="mainSections">
+        <div id="loginDiv">
+          <h2 class="subtitle"> Login </h2>
+          <div class="gridContainer">
+            <div>
+              <span id="loginUsernameError" class="error">Please enter your Username</span>
+              <input id="loginUsername" class="textInput" type="text" placeholder="Username">
+            </div>
+            <div>
+              <span id="loginPasswordError" class="error">Please enter your Password</span>
+              <input id="loginPassword" class="textInput" type="password" placeholder="Password">
+            </div>
+            <label class="centeredRow">
+              <div> <input type="checkbox" name="rememberMe"> Remember me </div>
+            </label>
+            <button id="loginBtn" class="centeredRow button">Login</button>
+          </div>
+        </div>
+
+        <div>
+          <form>
+            <h2 class="subtitle">Registration</h2>
+            
+            <div class="gridContainer">
+              <div>
+                <span id="registrationFNameError" class="error">Please enter your First Name</span> 
+                <input id="registrationFName" class="textInput" type="text" placeholder="First Name">
+              </div>
+              <div>
+                <span id="registrationLNameError" class="error">Please enter your Last Name</span>
+                <input id="registrationLName" class="textInput" type="text" placeholder="Last Name">
+              </div>
+              <div class="row">
+                <span id="registrationUsernameError" class="error">Please enter your Username</span>
+                <input id="registrationUsername" class="textInput" type="text" placeholder="Username">
+              </div>
+              <div class="row">
+                <span id="registrationEmailError" class="error">Please enter your Email</span>
+                <input id="registrationEmail" class="textInput" type="text" placeholder="Email">
+              </div>
+              <div>
+                <span id="registrationPassError" class="error">Please enter your Password</span>
+                <input id="registrationPass" class="textInput" type="password" placeholder="Password">
+              </div>
+              <div>
+                <span id="registrationPassConfError" class="error">Please confirm your Password</span>
+                <input id="registrationPassConf" class="textInput" type="password" placeholder="Password Confirmation">
+              </div>
+              <div>
+                <span id="registrationGenderError" class="error">Please select a Gender</span>
+                <label>
+                  <input type="radio" name="gender"> Male
+                </label>
+                <label>
+                  <input type="radio" name="gender"> Female
+                </label>
+              </div>
+
+              <div id="countrySelect">
+                <span id="registrationCountryError" class="error">Please select a Country</span>
+                <span>Country:</span>
+                <select id="registrationCountry">
+                  <option value="default">Select a country</option>
+                  <option value="AU">Australia</option>
+                  <option value="BR">Brasil</option>
+                  <option value="CH">China</option>
+                  <option value="FR">France</option>
+                  <option value="GE">Germany</option>
+                  <option value="IT">Italy</option>
+                  <option value="JP">Japan</option>
+                  <option value="MX">Mexico</option>
+                  <option value="NT">Netherlands</option>
+                  <option value="NZ">New Zealand</option>
+                  <option value="RU">Russia</option>
+                  <option value="SP">Spain</option>
+                  <option value="SW">Sweden</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="US">United States Of America</option>
+                </select>
+              </div>
+
+              <input id="clearBtn" class="button" type="submit" name="clearButton" value="Clear">
+              <input id="registerBtn" class="button" type="submit" name="registerButton" value="Register">
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Contact information: <a href="mailto:itdept@jammer.com">itdept@jammer.com</a>
+    </footer>
+  </div>
+  <script type="text/javascript" src="./js/index.js"></script>
+</body>
+</html>

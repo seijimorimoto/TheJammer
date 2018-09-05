@@ -1,0 +1,101 @@
+* {
+  font-family: 'Segoe UI Light'
+}
+
+.flowContainer {
+  overflow: hidden;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  margin: 0;
+  height: 52px;
+}
+
+.gridContainer > div {
+  justify-self: center;
+  align-self: center;
+}
+
+.column {
+  float: left;
+  height: 100%;
+}
+
+.column > div {
+  margin: 10px;
+  border-radius: 5px;
+}
+
+#logo {
+  height: 35px;
+}
+
+#userImage {
+  border-radius: 50%;
+  height: 35px;
+}
+
+#menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#menu > li {
+  float: left;
+  padding: 15px 20px;
+}
+
+#menu > li:hover {
+  cursor: pointer;
+  color: aqua;
+}
+
+#searchBox {
+  border-radius: 20px;
+  height: 35px;
+  width: 200px;
+  padding: 0px 15px;
+}
+
+#rightHeader {
+  overflow: hidden;
+}
+
+#rightHeader > * {
+  float: left;
+  margin-left: 15px;
+}
+
+#middleColumn {
+  width: 40%;
+}
+
+#leftColumn, #rightColumn {
+  width: 30%;
+}
+
+#postGrid {
+  display: grid;
+  grid-template-columns: 35px calc(100% - 35px);
+  background-color: #b1d0ffbe;
+  border-radius: inherit;
+}
+
+#postGrid > * {
+  margin: 15px;
+}
+
+#postBox {
+  border-radius: 5px;
+  margin-left: 30px;
+  padding: 0px 10px;
+}
+
+/* #postBox:focus {
+  box-shadow: 0px 0px 5px #51cbee;
+  border: 1px solid #51cbee;
+} */
