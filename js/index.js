@@ -1,47 +1,45 @@
-let loginBtn = document.getElementById("loginBtn");
-let registrationBtn = document.getElementById("registerBtn");
-
-loginBtn.addEventListener("click", function(event) {
+$("#loginBtn").on("click", function(event) {
   validateLogin();
 });
 
-registrationBtn.addEventListener("click", function(event) {
+$("#registerBtn").on("click", function(event) {
   event.preventDefault();
 
   validateRegistration();
-})
+});
 
 function validateLogin() {
-  let username = document.getElementById("loginUsername");
-  let usernameError = document.getElementById("loginUsernameError");
-  let password = document.getElementById("loginPassword");
-  let passwordError = document.getElementById("loginPasswordError");
+  let $username = $("#loginUsername");
+  let $usernameError = $("#loginUsernameError");
+  let $password = $("#loginPassword");
+  let $passwordError = $("#loginPasswordError");
   let missingCredentials = false;
   
-  if (username.value === "") {
-    usernameError.textContent = "Please enter your First Name";
-    usernameError.style.display = "block";
+  if ($username.val() === "") {
+    $usernameError.text("Please enter your First Name");
+    $usernameError.removeClass("hidden");
     missingCredentials = true;
   } else {
-    usernameError.style.display = "none";
+    $usernameError.addClass("hidden");
   }
 
-  if (password.value === "") {
-    passwordError.style.display = "block";
+  if ($password.val() === "") {
+    $passwordError.removeClass("hidden");
     missingCredentials = true;
   } else {
-    passwordError.style.display = "none";
+    $passwordError.addClass("hidden");
   }
 
-  if (username.value === "lab3" && password.value === "lab3") {
+  if ($username.val() === "lab3" && $password.val() === "lab3") {
     window.location.href = "./home.html";
   } else if (!missingCredentials) {
-    usernameError.textContent = "Incorrect credentials";
-    usernameError.style.display = "block";
+    $usernameError.text("Incorrect credentials");
+    $usernameError.removeClass("hidden");
   }
 }
 
 function validateRegistration() {
+  validateRegistrationTextInputs();
   if (validateRegistrationTextInputs() & validateRegistrationRadioButtons() &
     validateRegistrationDropDownMenu()) {
     window.location.href = "./home.html";
@@ -49,99 +47,92 @@ function validateRegistration() {
 }
 
 function validateRegistrationTextInputs() {
-  let firstName = document.getElementById("registrationFName");
-  let firstNameError = document.getElementById("registrationFNameError");
-  let lastName = document.getElementById("registrationLName");
-  let lastNameError = document.getElementById("registrationLNameError");
-  let username = document.getElementById("registrationUsername");
-  let usernameError = document.getElementById("registrationUsernameError");
-  let email = document.getElementById("registrationEmail");
-  let emailError = document.getElementById("registrationEmailError");
-  let password = document.getElementById("registrationPass");
-  let passwordError = document.getElementById("registrationPassError");
-  let passwordConf = document.getElementById("registrationPassConf");
-  let passwordConfError = document.getElementById("registrationPassConfError");
+  let $firstName = $("#registrationFName");
+  let $firstNameError = $("#registrationFNameError");
+  let $lastName = $("#registrationLName");
+  let $lastNameError = $("#registrationLNameError");
+  let $username = $("#registrationUsername");
+  let $usernameError = $("#registrationUsernameError");
+  let $email = $("#registrationEmail");
+  let $emailError = $("#registrationEmailError");
+  let $password = $("#registrationPass");
+  let $passwordError = $("#registrationPassError");
+  let $passwordConf = $("#registrationPassConf");
+  let $passwordConfError = $("#registrationPassConfError");
   let isValid = true;
 
-  if (firstName.value === "") {
-    firstNameError.style.display = "block";
+  if ($firstName.val() === "") {
+    $firstNameError.removeClass("hidden");
     isValid = false;
   } else {
-    firstNameError.style.display = "none";
+    $firstNameError.addClass("hidden");
   }
 
-  if (lastName.value === "") {
-    lastNameError.style.display = "block";
+  if ($lastName.val() === "") {
+    $lastNameError.removeClass("hidden");
     isValid = false;
   } else {
-    lastNameError.style.display = "none";
+    $lastNameError.addClass("hidden");
   }
 
-  if (username.value === "") {
-    usernameError.style.display = "block";
+  if ($username.val() === "") {
+    $usernameError.removeClass("hidden");
     isValid = false;
   } else {
-    usernameError.style.display = "none";
+    $usernameError.addClass("hidden");
   }
 
-  if (email.value === "") {
-    emailError.style.display = "block";
+  if ($email.val() === "") {
+    $emailError.removeClass("hidden");
     isValid = false;
   } else {
-    emailError.style.display = "none";
+    $emailError.addClass("hidden");
   }
 
-  if (password.value === "") {
-    passwordError.style.display = "block";
+  if ($password.val() === "") {
+    $passwordError.removeClass("hidden");
     isValid = false;
   } else {
-    passwordError.style.display = "none";
+    $passwordError.addClass("hidden");
   }
 
-  if (passwordConf.value === "") {
-    passwordConfError.textContent = "Please confirm your Password";
-    passwordConfError.style.display = "block";
+  if ($passwordConf.val() === "") {
+    $passwordConfError.text("Please confirm your Password");
+    $passwordConfError.removeClass("hidden");
     isValid = false;
-  } else if (passwordConf.value != password.value) {
-    passwordConfError.textContent = "Password confirmation should match password";
-    passwordConfError.style.display = "block";
+  } else if ($passwordConf.val() != $password.val()) {
+    $passwordConfError.text("Password confirmation should match password");
+    $passwordConfError.removeClass("hidden");
     isValid = false;
   } else {
-    passwordConfError.style.display = "none";
+    $passwordConfError.addClass("hidden");
   }
 
   return isValid;
 }
 
 function validateRegistrationRadioButtons() {
-  let genderRadios = document.getElementsByName("gender");
-  let genderError = document.getElementById("registrationGenderError");
-  let selectedFlag = false;
+  let $genderCheckedRadios = $("input[type=radio][name=gender]:checked");
+  let $genderError = $("#registrationGenderError");
 
-  for (let i = 0; i < genderRadios.length && !selectedFlag; i++) {
-    if (genderRadios[i].checked)
-      selectedFlag = true;
-  }
-
-  if (!selectedFlag) {
-    genderError.style.display = "block";
+  if ($genderCheckedRadios.length === 0) {
+    $genderError.removeClass("hidden");
     return false;
   }
 
-  genderError.style.display = "none";
+  $genderError.addClass("hidden");
   return true;
 }
 
 function validateRegistrationDropDownMenu() {
-  let country = document.getElementById("registrationCountry");
-  let countryError = document.getElementById("registrationCountryError");
-  let selectedOption = country.options[country.selectedIndex].value;
+  let $selectedOption = $("#registrationCountry > option:checked");
+  let $countryError = $("#registrationCountryError");
   
-  if (selectedOption === "default") {
-    countryError.style.display = "block";
+  if ($selectedOption.val() === "default") {
+    $countryError.removeClass("hidden");
     return false;
   }
   
-  countryError.style.display = "none";
+  $countryError.addClass("hidden");
   return true;
 }

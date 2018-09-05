@@ -33,11 +33,11 @@
           <h2 class="subtitle"> Login </h2>
           <div class="gridContainer">
             <div>
-              <span id="loginUsernameError" class="error">Please enter your Username</span>
+              <span id="loginUsernameError" class="error hidden">Please enter your Username</span>
               <input id="loginUsername" class="textInput" type="text" placeholder="Username">
             </div>
             <div>
-              <span id="loginPasswordError" class="error">Please enter your Password</span>
+              <span id="loginPasswordError" class="error hidden">Please enter your Password</span>
               <input id="loginPassword" class="textInput" type="password" placeholder="Password">
             </div>
             <label class="centeredRow">
@@ -53,31 +53,31 @@
             
             <div class="gridContainer">
               <div>
-                <span id="registrationFNameError" class="error">Please enter your First Name</span> 
+                <span id="registrationFNameError" class="error hidden">Please enter your First Name</span> 
                 <input id="registrationFName" class="textInput" type="text" placeholder="First Name">
               </div>
               <div>
-                <span id="registrationLNameError" class="error">Please enter your Last Name</span>
+                <span id="registrationLNameError" class="error hidden">Please enter your Last Name</span>
                 <input id="registrationLName" class="textInput" type="text" placeholder="Last Name">
               </div>
               <div class="row">
-                <span id="registrationUsernameError" class="error">Please enter your Username</span>
+                <span id="registrationUsernameError" class="error hidden">Please enter your Username</span>
                 <input id="registrationUsername" class="textInput" type="text" placeholder="Username">
               </div>
               <div class="row">
-                <span id="registrationEmailError" class="error">Please enter your Email</span>
+                <span id="registrationEmailError" class="error hidden">Please enter your Email</span>
                 <input id="registrationEmail" class="textInput" type="text" placeholder="Email">
               </div>
               <div>
-                <span id="registrationPassError" class="error">Please enter your Password</span>
+                <span id="registrationPassError" class="error hidden">Please enter your Password</span>
                 <input id="registrationPass" class="textInput" type="password" placeholder="Password">
               </div>
               <div>
-                <span id="registrationPassConfError" class="error">Please confirm your Password</span>
+                <span id="registrationPassConfError" class="error hidden">Please confirm your Password</span>
                 <input id="registrationPassConf" class="textInput" type="password" placeholder="Password Confirmation">
               </div>
               <div>
-                <span id="registrationGenderError" class="error">Please select a Gender</span>
+                <span id="registrationGenderError" class="error hidden">Please select a Gender</span>
                 <label>
                   <input type="radio" name="gender"> Male
                 </label>
@@ -87,7 +87,7 @@
               </div>
 
               <div id="countrySelect">
-                <span id="registrationCountryError" class="error">Please select a Country</span>
+                <span id="registrationCountryError" class="error hidden">Please select a Country</span>
                 <span>Country:</span>
                 <select id="registrationCountry">
                   <option value="default">Select a country</option>
@@ -121,6 +121,7 @@
       Contact information: <a href="mailto:itdept@jammer.com">itdept@jammer.com</a>
     </footer>
   </div>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="./js/index.js"></script>
 </body>
 </html>
