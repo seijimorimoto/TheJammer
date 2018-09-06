@@ -27,6 +27,9 @@ footer {
 
 input, button {
   border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d6d0d0;
   padding: 0px 5px;
 }
 
@@ -55,15 +58,6 @@ a:hover {
 .subtitle {
   color: #0F3C7F;
   text-align: center;
-}
-
-.row {
-  grid-column: 1 / span 2;
-}
-
-.centeredRow {
-  grid-column: 1 / span 2;
-  justify-self: center;
 }
 
 .gridContainer {

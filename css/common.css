@@ -12,20 +12,17 @@ header {
 }
 
 input, button {
-  border-width: 1px;
-  border-style: solid;
-  border-color: #d6d0d0;
   box-sizing: border-box;
 }
 
-input {
+input, textarea {
   /* Removes the default line that appears when focusing the element */
   outline: none;
   /* Animation parameters for changing style when changing state */
   transition: all 0.20s ease-in-out;
 }
 
-input:focus {
+input:focus, textarea:focus {
   box-shadow: 0px 0px 5px #51cbee;
   border: 1px solid #51cbee;
 }
@@ -34,6 +31,19 @@ button, .button {
   cursor: pointer;
 }
 
+button:disabled, .button:disabled {
+  cursor: not-allowed;
+}
+
 .hidden {
   display: none;
+}
+
+.centeredRow {
+  grid-column: 1 / span 2;
+  justify-self: center;
+}
+
+.row {
+  grid-column: 1 / span 2;
 }

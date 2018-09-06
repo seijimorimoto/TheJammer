@@ -28,6 +28,12 @@
   border-radius: 5px;
 }
 
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: 35px calc(100% - 35px);
+  border-radius: inherit;
+}
+
 #logo {
   height: 35px;
 }
@@ -55,7 +61,10 @@
 }
 
 #searchBox {
+  border-color: #d6d0d0;
   border-radius: 20px;
+  border-style: solid;
+  border-width: 1px;
   height: 35px;
   width: 200px;
   padding: 0px 15px;
@@ -79,10 +88,7 @@
 }
 
 #postGrid {
-  display: grid;
-  grid-template-columns: 35px calc(100% - 35px);
   background-color: #b1d0ffbe;
-  border-radius: inherit;
 }
 
 #postGrid > * {
@@ -91,11 +97,23 @@
 
 #postBox {
   border-radius: 5px;
+  height: 26px;
   margin-left: 30px;
-  padding: 0px 10px;
+  overflow-y: hidden;
+  padding: 7px 10px 0px 10px;
+  resize: none;
 }
 
-/* #postBox:focus {
-  box-shadow: 0px 0px 5px #51cbee;
-  border: 1px solid #51cbee;
-} */
+#addCommentBtn {
+  background-color: #0F3C7F;
+  border-radius: 20px;
+  border-width: 0;
+  color: #f1e8e8;
+  height: 35px;
+  margin-top: 0px;
+  padding: 0px 15px;
+}
+
+#addCommentBtn:disabled {
+  opacity: 0.7;
+}

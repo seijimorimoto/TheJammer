@@ -32,9 +32,13 @@
     </div>
     <div id="middleColumn" class="column">
       <div>
-        <div id="postGrid">
+        <div id="postGrid" class="twoColumnGrid">
           <img id="userImage" src="images/default_user_image.png" alt="User Image">
-          <input id="postBox" type="text" placeholder="What do you have to tell?">
+          <textarea id="postBox" placeholder="What do you have to tell?"></textarea>
+          <button id="addCommentBtn" class="centeredRow button hidden" disabled>Add Comment</button>
+        </div>
+        <div id="commentArea" class="twoColumnGrid">
+
         </div>
       </div>
     </div>
@@ -44,5 +48,11 @@
       </div>
     </div>
   </main>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="./js/home.js"></script>
 </body>
 </html>
