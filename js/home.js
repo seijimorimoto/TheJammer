@@ -1,26 +1,40 @@
-$('#postBox')
-  .css('height', this.scrollHeight)
-  .on('input', function(event) {
-    $(this).css('height', 'auto');
-    $(this).css('height', $(this).prop('scrollHeight'));
-    if ($(this).val() === "") {
-      $('#addCommentBtn').prop('disabled', true);
-    } else {
-      $('#addCommentBtn').prop('disabled', false);
-    }
-  })
-  .on('focus', function(event) {
-    $(this).css('height', 'auto');
-    $(this).css('height', $(this).prop('scrollHeight'));
-    $('#addCommentBtn').removeClass('hidden');
-  })
-  .on('blur', function(event) {
-    if ($(this).val() === "") {
-      $('#addCommentBtn').addClass('hidden');
-      $(this).css('height', '26px');
-    }
-  });
+let $postBox = $('#postBox');
 
+$postBox.css('height', this.scrollHeight);
+
+// Any time there is a change in input in the postBox, it is resized (if needed) and the
+// addCommentBtn is enabled/disabled based on whether there is text on the postBox. 
+$postBox.on('input', function(event) {
+  autoresize(this);
+  if ($(this).val() === "") {
+    $('#addCommentBtn').prop('disabled', true);
+  } else {
+    $('#addCommentBtn').prop('disabled', false);
+  }
+});
+
+// When the postBox is focused, it is resized (if needed) and the addCommentBtn is shown.
+$postBox.on('focus', function(event) {
+  autoresize(this);
+  $('#addCommentBtn').removeClass('hidden');
+});
+
+// When the postBox loses focus, if there isn't text in it, it is resized to its original height
+// and the addCommentBtn is hidden.
+$postBox.on('blur', function(event) {
+  if ($(this).val() === "") {
+    $('#addCommentBtn').addClass('hidden');
+    $(this).css('height', '26px');
+  }
+});
+
+// Autoresizes a textarea so as to prevent the scrollbar from showing.
+function autoresize(textarea) {
+  $(textarea).css('height', 'auto');
+  $(textarea).css('height', $(textarea).prop('scrollHeight'));
+}
+
+// When the addCommentBtn is clicked, appends a comment to the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
   let commentText = $('#postBox').val();
   let newHtml = `<div class="commentBox twoColumnGrid">

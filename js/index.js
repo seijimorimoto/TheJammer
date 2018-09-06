@@ -1,13 +1,15 @@
+// When the loginBtn is clicked, validates the login fields.
 $("#loginBtn").on("click", function(event) {
   validateLogin();
 });
 
+// When the registerBtn is clicked, validates the registration fields.
 $("#registerBtn").on("click", function(event) {
   event.preventDefault();
-
   validateRegistration();
 });
 
+// Validates the login fields and credentials.
 function validateLogin() {
   let $username = $("#loginUsername");
   let $usernameError = $("#loginUsernameError");
@@ -38,6 +40,7 @@ function validateLogin() {
   }
 }
 
+// Validates the registration fields.
 function validateRegistration() {
   validateRegistrationTextInputs();
   if (validateRegistrationTextInputs() & validateRegistrationRadioButtons() &
@@ -46,6 +49,7 @@ function validateRegistration() {
   }
 }
 
+// Validates the registration text inputs.
 function validateRegistrationTextInputs() {
   let $firstName = $("#registrationFName");
   let $firstNameError = $("#registrationFNameError");
@@ -111,6 +115,7 @@ function validateRegistrationTextInputs() {
   return isValid;
 }
 
+// Validates the registration radio buttons.
 function validateRegistrationRadioButtons() {
   let $genderCheckedRadios = $("input[type=radio][name=gender]:checked");
   let $genderError = $("#registrationGenderError");
@@ -124,6 +129,7 @@ function validateRegistrationRadioButtons() {
   return true;
 }
 
+// Validates the registration dropdown menu (the "select country" menu).
 function validateRegistrationDropDownMenu() {
   let $selectedOption = $("#registrationCountry > option:checked");
   let $countryError = $("#registrationCountryError");
