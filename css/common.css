@@ -1,3 +1,7 @@
+* {
+  font-family: 'Segoe UI Light'
+}
+
 html,
 body {
   background-color: #EDF0F5;
@@ -15,14 +19,14 @@ input, button {
   box-sizing: border-box;
 }
 
-input, textarea {
+input, button, textarea, select {
   /* Removes the default line that appears when focusing the element */
   outline: none;
   /* Animation parameters for changing style when changing state */
   transition: all 0.20s ease-in-out;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, button:focus, select:focus {
   box-shadow: 0px 0px 5px #51cbee;
   border: 1px solid #51cbee;
 }

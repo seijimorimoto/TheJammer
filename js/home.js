@@ -20,3 +20,12 @@ $('#postBox')
       $(this).css('height', '26px');
     }
   });
+
+$('#addCommentBtn').on('click', function(event) {
+  let commentText = $('#postBox').val();
+  let newHtml = `<div class="commentBox twoColumnGrid">
+                  <img class="userImage" src="images/default_user_image.png" alt="User Image">
+                  <div class="comment">${commentText}</div>
+                 </div>`;
+  $('#commentArea').append(newHtml);
+});
