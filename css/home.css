@@ -93,6 +93,10 @@
   color: gray;
 }
 
+.selected {
+  color: aqua;
+}
+
 #logo {
   height: 35px;
 }
