@@ -38,8 +38,20 @@
 }
 
 .comment {
-  font-size: 16px;
   margin-left: 35px;
+}
+
+.commentHeader {
+  font-size: 16px;
+}
+
+.commentHeader:hover {
+  color: #1e7af3;
+}
+
+.commentBody {
+  font-size: 14px;
+  margin-top: 7px;
 }
 
 .commentBox {
@@ -53,6 +65,14 @@
 
 .commentBox:hover {
   background-color: #f5f8ff;
+}
+
+.completeName {
+  font-weight: bold;
+}
+
+.username {
+  color: gray;
 }
 
 #logo {

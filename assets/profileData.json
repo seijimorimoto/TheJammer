@@ -1,0 +1,10 @@
+{
+	"username" : "lab5",
+	"name" : {
+		"firstName" : "Thomas",
+		"lastName" : "Omaley"
+	},
+	"email" : "thoom1961@jourrapide.com",
+	"gender" : "M",
+	"country": "United States"
+}

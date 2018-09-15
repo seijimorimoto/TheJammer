@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<contacts>
+	<contact>
+		<name email="thoom1961@jourrapide.com" username="thomas1961"> Thomas Omaley </name>
+		<text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua [...]</text>
+	</contact>
+	<contact>
+		<name email="saps1963@einrot.com" username="saps1963"> Sara Pattick</name>
+		<text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua [...]</text>
+	</contact>
+	<contact>
+		<name email="osts1936@fleckens.hu" username="TheOscar"> Oscar Tunskten </name>
+		<text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua [...]</text>
+	</contact>
+	<contact>
+		<name email="dinvis1952@teleworm.us" username="daniel1952"> Daniel Vinck </name>
+		<text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua [...]</text>
+	</contact>
+</contacts>
