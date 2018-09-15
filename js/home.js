@@ -1,4 +1,6 @@
 let $postBox = $('#postBox');
+let completeName = '';
+let username = '';
 
 $postBox.css('height', this.scrollHeight);
 
@@ -37,7 +39,7 @@ function autoresize(textarea) {
 // When the addCommentBtn is clicked, appends a comment to the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
   let commentText = $('#postBox').val();
-  prependComment('Thomas Omaley', 'lab5', commentText); // Temporary credentials.
+  prependComment(completeName, username, commentText);
 });
 
 // AJAX GET request executed when the page is loaded. Retrieves comments stored in an xml and adds
@@ -85,3 +87,41 @@ function createCommentAsHtml(completeName, username, commentText) {
             </div>
           </div>`;
 }
+
+// AJAX GET request that retrieves the user profile data stored in a JSON file. This request is
+// executed when the home page is loaded to prevent firing an AJAX request each time the profile
+// tab/icon is clicked (however, the profile section itself is displayed only when the profile tab
+// is clicked).
+$.ajax({
+  url: './assets/profileData.json',
+  type: 'GET',
+  dataType: 'json',
+  success: function(data) {
+    username = data.username;
+    completeName = data.name.firstName + " " + data.name.lastName;
+    $('#username').text('@' + username);
+    $('#completeName').text(completeName);
+    $('#email').text(data.email);
+    if (data.gender === 'M') {
+      $('#gender').text('Male');
+    } else {
+      $('#gender').text('Female');
+    }
+    $('#country').text(data.country);
+  },
+  error: function(err) {
+    console.log(err);
+  }
+});
+
+// When the #profileTab is clicked, display the profile section and hide the home section.
+$('#profileTab').on('click', function(event) {
+  $('#homeSection').addClass('hidden');
+  $('#profileSection').removeClass('hidden');
+});
+
+// When the #homeTab is clicked, display the home section and hide the profile section.
+$('#homeTab').on('click', function(event) {
+  $('#profileSection').addClass('hidden');
+  $('#homeSection').removeClass('hidden');
+})

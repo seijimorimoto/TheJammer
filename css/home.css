@@ -150,6 +150,10 @@
   resize: none;
 }
 
+#profileTab:hover {
+  cursor: pointer;
+}
+
 #profileArea span {
   display: block;
   text-align: center;
