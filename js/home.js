@@ -38,8 +38,12 @@ function autoresize(textarea) {
 
 // When the addCommentBtn is clicked, appends a comment to the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
-  let commentText = $('#postBox').val();
+  let commentText = $($postBox).val();
   prependComment(completeName, username, commentText);
+  $($postBox).val('');
+  $($postBox).css('height', '26px');
+  $(this).prop('disabled', true);
+  $(this).addClass('hidden');
 });
 
 // AJAX GET request executed when the page is loaded. Retrieves comments stored in an xml and adds
@@ -117,6 +121,7 @@ $.ajax({
 // When the #profileTab is clicked, display the profile section and hide the home section.
 $('#profileTab').on('click', function(event) {
   $('#homeSection').addClass('hidden');
+  $('#homeTab').removeClass('selected');
   $('#profileSection').removeClass('hidden');
 });
 
@@ -124,4 +129,5 @@ $('#profileTab').on('click', function(event) {
 $('#homeTab').on('click', function(event) {
   $('#profileSection').addClass('hidden');
   $('#homeSection').removeClass('hidden');
+  $('#homeTab').addClass('selected');
 })
