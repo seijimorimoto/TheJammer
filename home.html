@@ -20,34 +20,68 @@
     </div>
     <div id="rightHeader">
       <input id="searchBox" type="text" placeholder="Search The Jammer">
-      <img class="userImage" src="images/default_user_image.png" alt="User Image">
+      <img class="smallUserImage" src="images/default_user_image.png" alt="User Image">
     </div>
   </header>
 
   <main class="floatContainer">
-    <div id="leftColumn" class="column">
-      <div>
-        <!-- To include more elements here in the future... -->
-      </div>
-    </div>
-    <div id="middleColumn" class="column">
-      <div>
-        <div id="postGrid" class="twoColumnGrid">
-          <img class="userImage" src="images/default_user_image.png" alt="User Image">
-          <textarea id="postBox" placeholder="What do you have to tell?"></textarea>
-          <button id="addCommentBtn" class="centeredRow button hidden" disabled>Add Comment</button>
+    
+    <section id="profileSection" class="hidden">
+      <div class="column leftRightColumn">
+        <div>
+          <!-- To include more elements here in the future... -->
         </div>
-        <div id="commentArea">
+      </div>
+      <div class="column middleColumn">
+        <div id="profileArea">
+          <div id="profileImageArea">
+            <img class="userImage" src="images/default_user_image.png" alt="User Image">
+          </div>
+          <div id="profileUserHeader">
+            <span id="completeName">Placeholder Name</span>
+            <span id="username">@PlaceholderUsername</span>
+          </div>
+          <div id="profileUserData">
+            <span id="email">Placeholder Email</span>
+            <span id="gender">Placeholder Gender</span>
+            <span id="country">Placeholder Country</span>
+          </div>
+        </div>
+      </div>
+      <div class="column leftRightColumn">
+          <div>
+            <!-- To include more elements here in the future... -->
+          </div>
+      </div>
+    </section>
+    
+    <section id="homeSection">
+      <div class="column leftRightColumn">
+        <div>
+          <!-- To include more elements here in the future... -->
+        </div>
+      </div>
+      <div class="column middleColumn">
+        <div>
+          <div id="postGrid" class="twoColumnGrid">
+            <img class="smallUserImage" src="images/default_user_image.png" alt="User Image">
+            <textarea id="postBox" placeholder="What do you have to tell?"></textarea>
+            <button id="addCommentBtn" class="centeredRow button hidden" disabled>Add Comment</button>
+          </div>
+          <div id="commentArea">
 
+          </div>
         </div>
       </div>
-    </div>
-    <div id="rightColumn" class="column">
-      <div>
-        <!-- To include more elements here in the future... -->
+      <div class="column leftRightColumn">
+        <div>
+          <!-- To include more elements here in the future... -->
+        </div>
       </div>
-    </div>
+    </section>
+
   </main>
+
   <script
     src="https://code.jquery.com/jquery-3.3.1.js"
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="

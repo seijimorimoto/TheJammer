@@ -23,6 +23,14 @@
   margin: 10px;
 }
 
+.middleColumn {
+  width: 40%;
+}
+
+.leftRightColumn {
+  width: 30%;
+}
+
 .twoColumnGrid {
   display: grid;
   grid-template-columns: 35px calc(100% - 35px);
@@ -32,9 +40,19 @@
   margin: 15px;
 }
 
-.userImage {
+.smallUserImage {
   border-radius: 50%;
   height: 35px;
+}
+
+.userImage {
+  border-radius: 50%;
+  display: block;
+  height: 250px;
+  padding: 0 25%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
 }
 
 .comment {
@@ -67,11 +85,11 @@
   background-color: #f5f8ff;
 }
 
-.completeName {
+.completeNameComment {
   font-weight: bold;
 }
 
-.username {
+.usernameComment {
   color: gray;
 }
 
@@ -115,14 +133,6 @@
   margin-left: 15px;
 }
 
-#middleColumn {
-  width: 40%;
-}
-
-#leftColumn, #rightColumn {
-  width: 30%;
-}
-
 #postGrid {
   background-color: #b1d0ffbe;
   border-radius: 5px 5px 0px 0px;
@@ -138,6 +148,44 @@
   overflow-y: hidden;
   padding: 7px 10px 0px 10px;
   resize: none;
+}
+
+#profileArea span {
+  display: block;
+  text-align: center;
+}
+
+#profileImageArea {
+  background-color: #b1d0ffbe;
+  border-radius: 5px 5px 0px 0px;
+  padding: 10px 0;
+}
+
+#profileUserHeader {
+  background-color: #0F3C7F;
+  padding: 10px 0;
+}
+
+#profileUserData {
+  background-color: white;
+  border-radius: 0px 0px 5px 5px;
+  padding: 15px 0;
+}
+
+#profileUserData > span {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+#completeName {
+  color: #f5f8ff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#username {
+  color: #dadde6;
+  font-size: 20px;
 }
 
 #addCommentBtn {

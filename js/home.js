@@ -73,11 +73,11 @@ function prependComment(completeName, username, commentText) {
 // Creates HTML content to hold a comment and to display it appropriately on the home page.
 function createCommentAsHtml(completeName, username, commentText) {
   return `<div class="commentBox twoColumnGrid">
-            <img class="userImage" src="images/default_user_image.png" alt="User Image">
+            <img class="smallUserImage" src="images/default_user_image.png" alt="User Image">
             <div class="comment">
               <div class="commentHeader">
-                <span class="completeName">${completeName}</span>
-                <span class="username">@${username}</span>
+                <span class="completeNameComment">${completeName}</span>
+                <span class="usernameComment">@${username}</span>
               </div>
               <div class="commentBody">
                 ${commentText}
