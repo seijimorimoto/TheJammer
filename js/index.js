@@ -32,11 +32,8 @@ function validateLogin() {
     $passwordError.addClass("hidden");
   }
 
-  if ($username.val() === "lab3" && $password.val() === "lab3") {
-    window.location.href = "./home.html";
-  } else if (!missingCredentials) {
-    $usernameError.text("Incorrect credentials");
-    $usernameError.removeClass("hidden");
+  if (!missingCredentials) {
+    checkLoginCredentials($username, $password, $usernameError);
   }
 }
 
@@ -45,7 +42,7 @@ function validateRegistration() {
   validateRegistrationTextInputs();
   if (validateRegistrationTextInputs() & validateRegistrationRadioButtons() &
     validateRegistrationDropDownMenu()) {
-    window.location.href = "./home.html";
+    registerUser();
   }
 }
 
@@ -66,6 +63,7 @@ function validateRegistrationTextInputs() {
   let isValid = true;
 
   if ($firstName.val() === "") {
+    $firstNameError.text('Please enter your First Name');
     $firstNameError.removeClass("hidden");
     isValid = false;
   } else {
@@ -80,6 +78,7 @@ function validateRegistrationTextInputs() {
   }
 
   if ($username.val() === "") {
+    $usernameError.text("Please enter your Username");
     $usernameError.removeClass("hidden");
     isValid = false;
   } else {
@@ -141,4 +140,71 @@ function validateRegistrationDropDownMenu() {
   
   $countryError.addClass("hidden");
   return true;
+}
+
+// Performs an AJAX GET request to the login service to check whether the user credentials are valid
+// and allow/deny him to login.
+function checkLoginCredentials($username, $password, $error) {
+  let jsonToSend = {
+    'username': $username.val(),
+    'password': $password.val()
+  };
+
+  $.ajax({
+    url: './assets/loginService.php',
+    type: 'GET',
+    data: jsonToSend,
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      console.log(window);
+      window.location.href = './home.html';
+    },
+    error: function(error) {
+      console.log(error);
+      $error.text("Incorrect credentials");
+      $error.removeClass("hidden");
+    }
+  });
+}
+
+// Performs an AJAX POST request to the registration service in order to register the information of
+// a new user.
+function registerUser() {
+  let jsonToSend = {
+    'username': $('#registrationUsername').val(),
+    'password': $('#registrationPass').val(),
+    'firstName': $('#registrationFName').val(),
+    'lastName': $('#registrationLName').val(),
+    'email': $('#registrationEmail').val(),
+    'gender': $("input[type=radio][name=gender]:checked").val(),
+    'country': $("#registrationCountry").val()
+  };
+
+  $.ajax({
+    url: './assets/registrationService.php',
+    type: 'POST',
+    data: jsonToSend,
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      window.location.href = './home.html';
+    },
+    error: function(error) {
+      console.log(error);
+      if (error.status === 409) {
+        let $usernameError = $("#registrationUsernameError");
+        $usernameError.text('Username already exists. Please select another one');
+        $usernameError.removeClass('hidden');
+      } else if (error.status === 500) {
+        let $error = $("#registrationFNameError");
+        $error.text('Something went wrong when saving your data. Try again later');
+        $error.removeClass('hidden');
+      } else {
+        let $error = $('#registrationFNameError');
+        $error.text('There was an unexpected error.');
+        $error.removeClass('hidden');
+      }
+    }
+  });
 }

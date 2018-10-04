@@ -13,6 +13,7 @@ CREATE TABLE Comments (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   content VARCHAR(300) NOT NULL,
   username VARCHAR(50) NOT NULL,
+  commentDate DATETIME NOT NULL,
   repliedCommentId INT,
   FOREIGN KEY (username) REFERENCES Users(username),
   FOREIGN KEY (repliedCommentId) REFERENCES Comments(id)
