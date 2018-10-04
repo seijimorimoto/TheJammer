@@ -5,6 +5,7 @@ CREATE TABLE Users (
   lastName VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL,
   gender CHAR(1) NOT NULL,
+  country CHAR(100) NOT NULL,
   profilePicture VARCHAR(1024) -- Stores the path to an image in the filesystem.
 );
 
