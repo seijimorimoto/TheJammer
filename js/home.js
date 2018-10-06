@@ -39,54 +39,90 @@ function autoresize(textarea) {
 // When the addCommentBtn is clicked, appends a comment to the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
   let commentText = $($postBox).val();
-  prependComment(completeName, username, commentText);
+  let currentDate = getFormattedDate(new Date());
+  let comment = {
+    content: $($postBox).val(),
+    username: 'Deku',
+    date: currentDate,
+    completeName: 'Izuku Midoriya',
+    profilePicture: 'images/Deku_profile_pic.jpg'
+  }
+  prependComment(comment);
   $($postBox).val('');
   $($postBox).css('height', '26px');
   $(this).prop('disabled', true);
   $(this).addClass('hidden');
 });
 
-// AJAX GET request executed when the page is loaded. Retrieves comments stored in an xml and adds
-// it to the page.
+// Temporal user for testing purposes. To be removed when sessions are implemented.
+let jsonUser = {
+  'username': 'Deku'
+}
+
+// AJAX GET request to the comment service executed when the page is loaded. Retrieves comments
+// posted by the current user or any of the people he follows and adds them to the page.
 $.ajax({
-  url: './assets/comments.xml',
+  url: './assets/commentService.php',
   type: 'GET',
-  dataType: 'xml',
+  data: jsonUser,
+  ContentType: 'application/json',
+  dataType: 'json',
   success: function(data) {
-    $(data).find('contact').each(function() {
-      let $name = $(this).find('name');
-      let commentText = $(this).find('text').text();
-      appendComment($($name).text(), $($name).attr('username'), commentText);
-    })
+    for (let index in data.comments) {
+      appendComment(data.comments[index]);
+    }
   },
   error: function(err) {
     console.log(err);
   }
 });
 
+// Transforms a Date object into a string with the following format: "DD/MM/YYYY hh:mm:ss".
+function getFormattedDate(date) {
+  let newDate = (date.getDate() < 10) ? '0' + date.getDate().toString() : date.getDate().toString();
+  newDate += '/';
+  newDate +=
+    (date.getMonth() + 1 < 10) ?
+    '0' + (date.getMonth() + 1).toString() :
+    (date.getMonth() + 1).toString();
+  newDate += '/';
+  newDate += date.getFullYear().toString();
+  newDate += ' ';
+  newDate += (date.getHours() < 10) ? '0' + date.getHours().toString() : date.getHours().toString();
+  newDate += ':';
+  newDate += (date.getMinutes() < 10) ? '0' + date.getMinutes().toString() : date.getMinutes().toString();
+  newDate += ':';
+  newDate += (date.getSeconds() < 10) ? '0' + date.getSeconds().toString() : date.getSeconds().toString();
+  return newDate;
+}
+
 // Adds a comment at the end of the river of comments in the home page.
-function appendComment(completeName, username, commentText) {
-  let newHtml = createCommentAsHtml(completeName, username, commentText);
+function appendComment(comment) {
+  let newHtml = createCommentAsHtml(comment);
   $('#commentArea').append(newHtml);
 }
 
 // Adds a comment to the beginning of the river of comments in the home page.
-function prependComment(completeName, username, commentText) {
-  let newHtml = createCommentAsHtml(completeName, username, commentText);
+function prependComment(comment) {
+  let newHtml = createCommentAsHtml(comment);
   $('#commentArea').prepend(newHtml);
 }
 
 // Creates HTML content to hold a comment and to display it appropriately on the home page.
-function createCommentAsHtml(completeName, username, commentText) {
+function createCommentAsHtml(comment) {
+  if (comment.profilePicture == '') {
+    comment.profilePicture = 'images/default_user_image.png';
+  }
+
   return `<div class="commentBox twoColumnGrid">
-            <img class="smallUserImage" src="images/default_user_image.png" alt="User Image">
+            <img class="smallUserImage" src="${comment.profilePicture}" alt="User Image">
             <div class="comment">
               <div class="commentHeader">
-                <span class="completeNameComment">${completeName}</span>
-                <span class="usernameComment">@${username}</span>
+                <span class="completeNameComment">${comment.completeName}</span>
+                <span class="usernameComment">@${comment.username}</span>
               </div>
               <div class="commentBody">
-                ${commentText}
+                ${comment.content}
               </div>
             </div>
           </div>`;
