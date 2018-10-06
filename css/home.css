@@ -86,11 +86,11 @@
   background-color: #f5f8ff;
 }
 
-.completeNameComment {
+.headerComment1 {
   font-weight: bold;
 }
 
-.usernameComment {
+.headerComment2 {
   color: gray;
 }
 

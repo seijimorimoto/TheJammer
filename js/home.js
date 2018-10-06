@@ -77,14 +77,14 @@ $.ajax({
 
 // Transforms a Date object into a string with the following format: "DD/MM/YYYY hh:mm:ss".
 function getFormattedDate(date) {
-  let newDate = (date.getDate() < 10) ? '0' + date.getDate().toString() : date.getDate().toString();
-  newDate += '/';
+  let newDate = date.getFullYear().toString();
+  newDate += '-';
   newDate +=
     (date.getMonth() + 1 < 10) ?
     '0' + (date.getMonth() + 1).toString() :
     (date.getMonth() + 1).toString();
-  newDate += '/';
-  newDate += date.getFullYear().toString();
+  newDate += '-';
+  newDate += (date.getDate() < 10) ? '0' + date.getDate().toString() : date.getDate().toString();
   newDate += ' ';
   newDate += (date.getHours() < 10) ? '0' + date.getHours().toString() : date.getHours().toString();
   newDate += ':';
@@ -116,8 +116,9 @@ function createCommentAsHtml(comment) {
             <img class="smallUserImage" src="${comment.profilePicture}" alt="User Image">
             <div class="comment">
               <div class="commentHeader">
-                <span class="completeNameComment">${comment.completeName}</span>
-                <span class="usernameComment">@${comment.username}</span>
+                <span class="headerComment1">${comment.completeName}</span>
+                <span class="headerComment2">@${comment.username}</span>
+                <span class="headerComment2">${comment.date}</span>
               </div>
               <div class="commentBody">
                 ${comment.content}
