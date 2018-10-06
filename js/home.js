@@ -1,6 +1,4 @@
 let $postBox = $('#postBox');
-let completeName = '';
-let username = '';
 
 $postBox.css('height', this.scrollHeight);
 
@@ -128,26 +126,27 @@ function createCommentAsHtml(comment) {
           </div>`;
 }
 
-// AJAX GET request that retrieves the user profile data stored in a JSON file. This request is
-// executed when the home page is loaded to prevent firing an AJAX request each time the profile
-// tab/icon is clicked (however, the profile section itself is displayed only when the profile tab
-// is clicked).
+// AJAX GET request to the profileService that retrieves the user profile data stored in the DB.
+// This request is executed when the home page is loaded to prevent firing an AJAX request each time
+// the profile tab/icon is clicked (however, the profile section itself is displayed only when the
+// profile tab is clicked).
 $.ajax({
-  url: './assets/profileData.json',
+  url: './assets/profileService.php',
   type: 'GET',
+  data: jsonUser,
+  ContentType: 'application/json',
   dataType: 'json',
   success: function(data) {
-    username = data.username;
-    completeName = data.name.firstName + " " + data.name.lastName;
-    $('#username').text('@' + username);
+    completeName = data.profile[0].completeName;
+    $('#username').text('@' + data.profile[0].username);
     $('#completeName').text(completeName);
-    $('#email').text(data.email);
-    if (data.gender === 'M') {
+    $('#email').text(data.profile[0].email);
+    if (data.profile[0].gender === 'M') {
       $('#gender').text('Male');
     } else {
       $('#gender').text('Female');
     }
-    $('#country').text(data.country);
+    $('#country').text(data.profile[0].country);
   },
   error: function(err) {
     console.log(err);
