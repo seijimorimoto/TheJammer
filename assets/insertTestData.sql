@@ -1,13 +1,13 @@
 -- This is a script for inserting dummy data into the database for testing purposes.
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Deku', 'oneforall', 'Izuku', 'Midoriya', 'deku@ua.com', 'M', 'JP', 'Deku_profile_pic');
+VALUES ('Deku', 'oneforall', 'Izuku', 'Midoriya', 'deku@ua.com', 'M', 'JP', 'images/Deku_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('All Might', 'smash', 'Toshinori', 'Yagi', 'allmight@ua.com', 'M', 'JP', 'All_Might_profile_pic');
+VALUES ('All Might', 'smash', 'Toshinori', 'Yagi', 'allmight@ua.com', 'M', 'JP', 'images/All_Might_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Uravity', 'float', 'Ochako', 'Uraraka', 'uravity@ua.com', 'F', 'JP', 'Uravity_profile_pic');
+VALUES ('Uravity', 'float', 'Ochako', 'Uraraka', 'uravity@ua.com', 'F', 'JP', 'images/Uravity_profile_pic.jpg');
 
 INSERT INTO Comments (content, username, commentDate)
 VALUES (

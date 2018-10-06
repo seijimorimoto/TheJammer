@@ -14,17 +14,15 @@
     die("The server is down, we couldn't retrieve data from the database");
   } else {
     $userName = $_GET['username'];
-    $sql = "SELECT content, username, commentDate
-            FROM Comments
-            WHERE username IN
-              (SELECT DISTINCT(username1)
-               FROM Followers
-               WHERE username2 = '$userName'
-               UNION
-               SELECT DISTINCT(username2)
+    $sql = "SELECT
+              C.content, C.username, C.commentDate,
+              CONCAT(U.firstName, ' ', U.lastName) AS completeName, U.profilePicture 
+            FROM Comments C JOIN Users U ON C.username = U.username
+            WHERE C.username IN
+              (SELECT DISTINCT(username2)
                FROM Followers
                WHERE username1 = '$userName')
-            OR username = '$userName'
+            OR C.username = '$userName'
             ORDER BY commentDate DESC";
     
     $result = $connection->query($sql);
@@ -34,7 +32,9 @@
       $response['comments'][] = array(
         'content' => $row['content'],
         'username' => $row['username'],
-        'date' => $row['commentDate']
+        'date' => $row['commentDate'],
+        'completeName' => $row['completeName'],
+        'profilePicture' => $row['profilePicture']
       );
     }
     echo json_encode($response);
