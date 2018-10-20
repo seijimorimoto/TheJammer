@@ -6,12 +6,11 @@
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
   margin: 0;
-  height: 52px;
+  text-align: center;
 }
 
 .gridContainer > div {
-  justify-self: center;
-  align-self: center;
+  width: 100%;
 }
 
 .column {
@@ -98,25 +97,25 @@
   color: aqua;
 }
 
-#logo {
-  height: 35px;
-}
-
-#menu {
+.menu {
   list-style: none;
   margin: 0;
-  padding: 0;
-  overflow: hidden;
+  padding: 15px 0;
 }
 
-#menu > li {
-  float: left;
-  padding: 15px 20px;
-}
-
-#menu > li:hover {
+.menuItem:hover {
   cursor: pointer;
   color: aqua;
+}
+
+#logo {
+  padding: 10px 0px;
+}
+
+#logout {
+  display: inline-block;
+  height: 35px;
+  padding: 5px 0px;
 }
 
 #searchBox {
@@ -135,7 +134,7 @@
 
 #rightHeader > * {
   float: left;
-  margin-left: 15px;
+  margin: 10px 0px 10px 15px;
 }
 
 #postGrid {
@@ -213,4 +212,54 @@
 
 #addCommentBtn:hover {
   background-color: #0F3C7F;
+}
+
+@media only screen and (max-width: 600px) {
+  header {
+    height: 108px;
+  }
+
+  .menu > li {
+    display: block;
+    padding-bottom: 3px;
+  }
+
+  #logo {
+    height: 88px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  header {
+    height: 80px;
+  }
+
+  .menu > li {
+    display: inline;
+    padding: 0px 7.8% 0px 0px;
+  }
+
+  #logo {
+    height: 60px;
+  }
+
+  #messagesTab {
+    display: block;
+    padding-top: 3px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  header {
+    height: 55px;
+  }
+
+  #logo {
+    height: 35px;
+  }
+
+  #messagesTab {
+    display: inline;
+    padding-top: 0px;
+  }
 }
