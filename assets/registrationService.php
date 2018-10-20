@@ -34,6 +34,12 @@
               VALUES ('$userName', '$password', '$firstName', '$lastName', '$email', '$gender', '$country')";
       
       if(mysqli_query($connection, $sql)) {
+        session_start();
+        
+        $_SESSION['firstName'] = $firstName;
+        $_SESSION['lastName'] = $lastName;
+        $_SESSION['username'] = $username;
+
         $response = array('status' => 'success');
         echo json_encode($response);
       } else {

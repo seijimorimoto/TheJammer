@@ -2,6 +2,22 @@ let $postBox = $('#postBox');
 
 $postBox.css('height', this.scrollHeight);
 
+// AJAX GET request to the sessionService executed when the page loads. Determines whether a session
+// exists. If it does not, then it redirects to the login/registration page.
+$.ajax({
+  url: './assets/sessionService.php',
+  type: 'GET',
+  dataType: 'json',
+  success: function(data) {
+    // Logs the data received just to check if the session service works correctly.
+    console.log(data);
+  },
+  error: function(err) {
+    alert(err.responseText);
+    $(location).attr('href', './index.html');
+  }
+});
+
 // Any time there is a change in input in the postBox, it is resized (if needed) and the
 // addCommentBtn is enabled/disabled based on whether there is text on the postBox. 
 $postBox.on('input', function(event) {

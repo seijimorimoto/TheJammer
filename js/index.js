@@ -1,3 +1,11 @@
+// Getting the array of cookies.
+let cookies = document.cookie.split('; ');
+
+let usernameCookie = getCookie('username');
+if (usernameCookie != null) {
+  $('#loginUsername').val(usernameCookie);
+}
+
 // When the loginBtn is clicked, validates the login fields.
 $("#loginBtn").on("click", function(event) {
   validateLogin();
@@ -8,6 +16,20 @@ $("#registerBtn").on("click", function(event) {
   event.preventDefault();
   validateRegistration();
 });
+
+// Retrieves the value of the cookie with name cookieName from the global array of cookies.
+// Returns null if the cookie does not exist.
+function getCookie(cookieName) {
+  for (let i in cookies) {
+    let splitPosition = cookies[i].indexOf('=');
+    let cookieKey = cookies[i].substring(0, splitPosition);
+    let cookieValue = cookies[i].substring(splitPosition + 1);
+    if (cookieKey == cookieName) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
 
 // Validates the login fields and credentials.
 function validateLogin() {
@@ -145,9 +167,15 @@ function validateRegistrationDropDownMenu() {
 // Performs an AJAX GET request to the login service to check whether the user credentials are valid
 // and allow/deny him to login.
 function checkLoginCredentials($username, $password, $error) {
+  let rememberMe = 'false';
+  if ($("#rememberMe").prop("checked")) {
+    rememberMe = 'true';
+  }
+
   let jsonToSend = {
     'username': $username.val(),
-    'password': $password.val()
+    'password': $password.val(),
+    'rememberMe': rememberMe
   };
 
   $.ajax({
