@@ -15,7 +15,7 @@
   } else {
     $userName = $_GET['username'];
     $password = $_GET['password'];
-    $sql = "SELECT firstName, lastName
+    $sql = "SELECT firstName, lastName, email, gender, profilePicture, country
             FROM Users
             WHERE username='$userName' AND passwd='$password'";
     $result = $connection->query($sql);
@@ -27,7 +27,8 @@
         $_SESSION['firstName'] = $row['firstName'];
         $_SESSION['lastName'] = $row['lastName'];
         $_SESSION['username'] = $userName;
-        $response = array("firstName" => $row["firstName"], "lastName" => $row["lastName"]);
+        $_SESSION['profilePicture'] = $row['profilePicture'];
+        $response = array('response' => 'Successful login');
       }
 
       $rememberMe = $_GET['rememberMe'];

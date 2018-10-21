@@ -1,3 +1,4 @@
+let userInfo;
 let $postBox = $('#postBox');
 
 $postBox.css('height', this.scrollHeight);
@@ -11,6 +12,10 @@ $.ajax({
   success: function(data) {
     // Logs the data received just to check if the session service works correctly.
     console.log(data);
+    userInfo = data;
+    setUserImages();
+    getComments();
+    getUserProfile();
   },
   error: function(err) {
     alert(err.responseText);
@@ -56,10 +61,10 @@ $('#addCommentBtn').on('click', function(event) {
   let currentDate = getFormattedDate(new Date());
   let comment = {
     content: $($postBox).val(),
-    username: 'Deku',
+    username: userInfo.username,
     date: currentDate,
-    completeName: 'Izuku Midoriya',
-    profilePicture: 'images/Deku_profile_pic.jpg'
+    completeName: userInfo.firstName + ' ' + userInfo.lastName,
+    profilePicture: userInfo.profilePicture
   }
   prependComment(comment);
   $($postBox).val('');
@@ -68,28 +73,28 @@ $('#addCommentBtn').on('click', function(event) {
   $(this).addClass('hidden');
 });
 
-// Temporal user for testing purposes. To be removed when sessions are implemented.
-let jsonUser = {
-  'username': 'Deku'
-}
-
-// AJAX GET request to the comment service executed when the page is loaded. Retrieves comments
-// posted by the current user or any of the people he follows and adds them to the page.
-$.ajax({
-  url: './assets/commentService.php',
-  type: 'GET',
-  data: jsonUser,
-  ContentType: 'application/json',
-  dataType: 'json',
-  success: function(data) {
-    for (let index in data.comments) {
-      appendComment(data.comments[index]);
+// Executes an AJAX GET request to the comment service. Retrieves comments posted by the current
+// user or any of the people he follows and adds them to the page. This function must be called
+// after the session variables are retrieved from the server.
+function getComments() {
+  $.ajax({
+    url: './assets/commentService.php',
+    type: 'GET',
+    data: {
+      'username': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      for (let index in data.comments) {
+        appendComment(data.comments[index]);
+      }
+    },
+    error: function(err) {
+      console.log(err);
     }
-  },
-  error: function(err) {
-    console.log(err);
-  }
-});
+  });
+}
 
 // Transforms a Date object into a string with the following format: "DD/MM/YYYY hh:mm:ss".
 function getFormattedDate(date) {
@@ -143,32 +148,42 @@ function createCommentAsHtml(comment) {
           </div>`;
 }
 
-// AJAX GET request to the profileService that retrieves the user profile data stored in the DB.
-// This request is executed when the home page is loaded to prevent firing an AJAX request each time
-// the profile tab/icon is clicked (however, the profile section itself is displayed only when the
-// profile tab is clicked).
-$.ajax({
-  url: './assets/profileService.php',
-  type: 'GET',
-  data: jsonUser,
-  ContentType: 'application/json',
-  dataType: 'json',
-  success: function(data) {
-    completeName = data.profile[0].completeName;
-    $('#username').text('@' + data.profile[0].username);
-    $('#completeName').text(completeName);
-    $('#email').text(data.profile[0].email);
-    if (data.profile[0].gender === 'M') {
-      $('#gender').text('Male');
-    } else {
-      $('#gender').text('Female');
+// Sets the appropriate HTML img elements to display the profile picture of the user. This function
+// must be called after the session variables are retrieved from the server.
+function setUserImages() {
+  $('#profileTab').attr('src', userInfo.profilePicture);
+  $('#profilePicture').attr('src', userInfo.profilePicture);
+  $('#postUserImage').attr('src', userInfo.profilePicture);
+}
+
+// Executes an AJAX GET request to the profileService that retrieves the user profile data stored in
+// the DB. This function must be called after the session variables are retrieved from the server.
+function getUserProfile() {
+  $.ajax({
+    url: './assets/profileService.php',
+    type: 'GET',
+    data: {
+      'username': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      completeName = data.profile[0].completeName;
+      $('#username').text('@' + data.profile[0].username);
+      $('#completeName').text(completeName);
+      $('#email').text(data.profile[0].email);
+      if (data.profile[0].gender === 'M') {
+        $('#gender').text('Male');
+      } else {
+        $('#gender').text('Female');
+      }
+      $('#country').text(data.profile[0].country);
+    },
+    error: function(err) {
+      console.log(err);
     }
-    $('#country').text(data.profile[0].country);
-  },
-  error: function(err) {
-    console.log(err);
-  }
-});
+  });
+}
 
 // When the #profileTab is clicked, display the profile section and hide the home section.
 $('#profileTab').on('click', function(event) {
@@ -182,4 +197,20 @@ $('#homeTab').on('click', function(event) {
   $('#profileSection').addClass('hidden');
   $('#homeSection').removeClass('hidden');
   $('#homeTab').addClass('selected');
-})
+});
+
+// When the #logout is clicked, call the sessionService to terminate the session and redirect to
+// the login/registration page.
+$('#logout').on('click', function(event) {
+  $.ajax({
+    url: './assets/sessionService.php',
+    type: 'DELETE',
+    dataType: 'json',
+    success: function(data) {
+      $(location).attr('href', './index.html');
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+});

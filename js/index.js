@@ -1,3 +1,17 @@
+// AJAX GET request to the sessionService executed when the page loads. Determines whether a session
+// exists. If it does, then it redirects to the home page of the logged in user.
+$.ajax({
+  url: './assets/sessionService.php',
+  type: 'GET',
+  dataType: 'json',
+  success: function(data) {
+    $(location).attr('href', './home.html');
+  },
+  error: function(err) {
+    // No need to log the error, since this just means that no user is logged in.
+  }
+});
+
 // Getting the array of cookies.
 let cookies = document.cookie.split('; ');
 
@@ -185,7 +199,6 @@ function checkLoginCredentials($username, $password, $error) {
     ContentType: 'application/json',
     dataType: 'json',
     success: function(data) {
-      console.log(window);
       window.location.href = './home.html';
     },
     error: function(error) {
