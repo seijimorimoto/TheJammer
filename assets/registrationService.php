@@ -30,15 +30,28 @@
       $email = $params['email'];
       $gender = $params['gender'];
       $country = $params['country'];
-      $sql = "INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country)
-              VALUES ('$userName', '$password', '$firstName', '$lastName', '$email', '$gender', '$country')";
+      $profilePicture = 'images/default_user_image.png';
+      $sql = "INSERT INTO
+              Users (username, passwd, firstName, lastName, email, gender, profilePicture, country)
+              VALUES
+              (
+                '$userName',
+                '$password',
+                '$firstName',
+                '$lastName',
+                '$email',
+                '$gender',
+                '$profilePicture',
+                '$country'
+              )";
       
       if(mysqli_query($connection, $sql)) {
         session_start();
         
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
-        $_SESSION['username'] = $username;
+        $_SESSION['username'] = $userName;
+        $_SESSION['profilePicture'] = 'images/default_user_image.png';
 
         $response = array('status' => 'success');
         echo json_encode($response);

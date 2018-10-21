@@ -3,24 +3,6 @@ let $postBox = $('#postBox');
 
 $postBox.css('height', this.scrollHeight);
 
-// AJAX GET request to the sessionService executed when the page loads. Determines whether a session
-// exists. If it does not, then it redirects to the login/registration page.
-$.ajax({
-  url: './assets/sessionService.php',
-  type: 'GET',
-  dataType: 'json',
-  success: function(data) {
-    userInfo = data;
-    setUserImages();
-    getComments();
-    getUserProfile();
-  },
-  error: function(err) {
-    alert(err.responseText);
-    $(location).attr('href', './index.html');
-  }
-});
-
 // Any time there is a change in input in the postBox, it is resized (if needed) and the
 // addCommentBtn is enabled/disabled based on whether there is text on the postBox. 
 $postBox.on('input', function(event) {
@@ -56,40 +38,45 @@ function autoresize(textarea) {
 // When the addCommentBtn is clicked, performs an AJAX POST request to save the comment in the DB.
 // If the request is successful, the comment is added at the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
-  let commentText = $($postBox).val();
-  let currentDate = getFormattedDate(new Date());
+  retrieveSession(
+    // Callback function executed if the session was successfully retrieved.
+    function() {
+      let commentText = $($postBox).val();
+      let currentDate = getFormattedDate(new Date());
 
-  let dataToSend = {
-    'username': userInfo.username,
-    'content': '"' + commentText + '"',
-    'commentDate': currentDate,
-  }
+      let dataToSend = {
+        'username': userInfo.username,
+        'content': '"' + commentText + '"',
+        'commentDate': currentDate,
+      }
 
-  $.ajax({
-    url: './assets/commentService.php',
-    type: 'POST',
-    data: dataToSend,
-    ContentType: 'application/json',
-    dataType: 'json',
-    success: function(data) {
-      let comment = {
-        content: commentText,
-        username: userInfo.username,
-        date: currentDate,
-        completeName: userInfo.firstName + ' ' + userInfo.lastName,
-        profilePicture: userInfo.profilePicture
-      };
+      $.ajax({
+        url: './assets/commentService.php',
+        type: 'POST',
+        data: dataToSend,
+        ContentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+          let comment = {
+            content: commentText,
+            username: userInfo.username,
+            date: currentDate,
+            completeName: userInfo.firstName + ' ' + userInfo.lastName,
+            profilePicture: userInfo.profilePicture
+          };
 
-      prependComment(comment);
-      $($postBox).val('');
-      $($postBox).css('height', '26px');
-      $(this).prop('disabled', true);
-      $(this).addClass('hidden');
-    },
-    error: function(err) {
-      alert(err.responseText);
+          prependComment(comment);
+          $($postBox).val('');
+          $($postBox).css('height', '26px');
+          $(this).prop('disabled', true);
+          $(this).addClass('hidden');
+        },
+        error: function(err) {
+          alert(err.responseText);
+        }
+      });
     }
-  });
+  );
 });
 
 // Executes an AJAX GET request to the comment service. Retrieves comments posted by the current
@@ -232,4 +219,28 @@ $('#logout').on('click', function(event) {
       console.log(err);
     }
   });
+});
+
+// Retrieves the session variables and calls the callback function (default, an empty function) on
+// success. If the session does not exists, then it redirects to the login/registration page.
+function retrieveSession(callback = function() {}) {
+  $.ajax({
+    url: './assets/sessionService.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      userInfo = data;
+      callback();
+    },
+    error: function(err) {
+      alert(err.responseText);
+      $(location).attr('href', './index.html');
+    }
+  });
+}
+
+retrieveSession(function() {
+  setUserImages();
+  getComments();
+  getUserProfile();
 });
