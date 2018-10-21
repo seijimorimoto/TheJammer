@@ -10,8 +10,6 @@ $.ajax({
   type: 'GET',
   dataType: 'json',
   success: function(data) {
-    // Logs the data received just to check if the session service works correctly.
-    console.log(data);
     userInfo = data;
     setUserImages();
     getComments();
@@ -55,22 +53,43 @@ function autoresize(textarea) {
   $(textarea).css('height', $(textarea).prop('scrollHeight'));
 }
 
-// When the addCommentBtn is clicked, appends a comment to the end of the commentArea.
+// When the addCommentBtn is clicked, performs an AJAX POST request to save the comment in the DB.
+// If the request is successful, the comment is added at the end of the commentArea.
 $('#addCommentBtn').on('click', function(event) {
   let commentText = $($postBox).val();
   let currentDate = getFormattedDate(new Date());
-  let comment = {
-    content: $($postBox).val(),
-    username: userInfo.username,
-    date: currentDate,
-    completeName: userInfo.firstName + ' ' + userInfo.lastName,
-    profilePicture: userInfo.profilePicture
+
+  let dataToSend = {
+    'username': userInfo.username,
+    'content': '"' + commentText + '"',
+    'commentDate': currentDate,
   }
-  prependComment(comment);
-  $($postBox).val('');
-  $($postBox).css('height', '26px');
-  $(this).prop('disabled', true);
-  $(this).addClass('hidden');
+
+  $.ajax({
+    url: './assets/commentService.php',
+    type: 'POST',
+    data: dataToSend,
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      let comment = {
+        content: commentText,
+        username: userInfo.username,
+        date: currentDate,
+        completeName: userInfo.firstName + ' ' + userInfo.lastName,
+        profilePicture: userInfo.profilePicture
+      };
+
+      prependComment(comment);
+      $($postBox).val('');
+      $($postBox).css('height', '26px');
+      $(this).prop('disabled', true);
+      $(this).addClass('hidden');
+    },
+    error: function(err) {
+      alert(err.responseText);
+    }
+  });
 });
 
 // Executes an AJAX GET request to the comment service. Retrieves comments posted by the current
@@ -96,7 +115,7 @@ function getComments() {
   });
 }
 
-// Transforms a Date object into a string with the following format: "DD/MM/YYYY hh:mm:ss".
+// Transforms a Date object into a string with the following format: "YYYY-MM-DD hh:mm:ss".
 function getFormattedDate(date) {
   let newDate = date.getFullYear().toString();
   newDate += '-';
