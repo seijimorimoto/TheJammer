@@ -187,13 +187,14 @@ function checkLoginCredentials($username, $password, $error) {
   }
 
   let jsonToSend = {
-    'username': $username.val(),
+    'action': 'LOGIN',
     'password': $password.val(),
-    'rememberMe': rememberMe
+    'rememberMe': rememberMe,
+    'username': $username.val()
   };
 
   $.ajax({
-    url: './assets/loginService.php',
+    url: './assets/applicationLayer.php',
     type: 'GET',
     data: jsonToSend,
     ContentType: 'application/json',
