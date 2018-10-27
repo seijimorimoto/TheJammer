@@ -11,15 +11,33 @@
       $action = $_GET['action'];
       getRequests($action);
       break;
+    case 'POST':
+      $action = $_POST['action'];
+      postRequests($action);
+      break;
   }
 
   # Handles GET requests.
   # Parameters:
-  # $action: Action requested by the front-end.
+  # $action: String representing an action requested by the front-end.
   function getRequests($action) {
     switch ($action) {
       case 'LOGIN':
         requestLogin();
+        break;
+      case 'COMMENTS':
+        requestComments();
+        break;
+    }
+  }
+
+  # Handles POST requests.
+  # Parameters:
+  # $action: String representing an action requested by the front-end.
+  function postRequests($action) {
+    switch ($action) {
+      case 'COMMENT':
+        postComment();
         break;
     }
   }
@@ -41,10 +59,43 @@
     }
   }
 
+  # Handles the request for comments of a given user and his friends.
+  function requestComments() {
+    $username = $_GET['username'];
+    
+    $response = retrieveComments($username);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for posting/adding a comment.
+  function postComment() {
+    $username = $_POST['username'];
+    $content = $_POST['content'];
+    $commentDate = $_POST['commentDate'];
+    $repliedCommentId = null;
+    
+    if (array_key_exists('repliedCommentId', $_POST)) {
+      $repliedCommentId = $_POST['repliedCommentId'];
+    }
+
+    $response = insertComment($username, $content, $commentDate, $repliedCommentId);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
   # Handles errors that occured in the data layer and returns an appropriate message to front-end.
   # Parameters:
-  # $status: Status/reason of the error.
-  # $code: HTTP error code.
+  # $status: Integer representing the status/reason of the error.
+  # $code: Integer representing an HTTP error code.
   function errorHandler($status, $code) {
     switch ($code) {
       case 406:

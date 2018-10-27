@@ -45,13 +45,14 @@ $('#addCommentBtn').on('click', function(event) {
       let currentDate = getFormattedDate(new Date());
 
       let dataToSend = {
-        'username': userInfo.username,
-        'content': '"' + commentText + '"',
+        'action': 'COMMENT',
         'commentDate': currentDate,
+        'content': commentText,
+        'username': userInfo.username,
       }
 
       $.ajax({
-        url: './assets/commentService.php',
+        url: './assets/applicationLayer.php',
         type: 'POST',
         data: dataToSend,
         ContentType: 'application/json',
@@ -84,16 +85,17 @@ $('#addCommentBtn').on('click', function(event) {
 // after the session variables are retrieved from the server.
 function getComments() {
   $.ajax({
-    url: './assets/commentService.php',
+    url: './assets/applicationLayer.php',
     type: 'GET',
     data: {
+      'action': 'COMMENTS',
       'username': userInfo.username
     },
     ContentType: 'application/json',
     dataType: 'json',
     success: function(data) {
-      for (let index in data.comments) {
-        appendComment(data.comments[index]);
+      for (let index in data) {
+        appendComment(data[index]);
       }
     },
     error: function(err) {
