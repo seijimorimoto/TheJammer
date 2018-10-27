@@ -19,11 +19,14 @@
 
   # Handles GET requests.
   # Parameters:
-  # $action: String representing an action requested by the front-end.
+  # - $action: String representing an action requested by the front-end.
   function getRequests($action) {
     switch ($action) {
       case 'LOGIN':
         requestLogin();
+        break;
+      case 'PROFILE':
+        requestProfile();
         break;
       case 'COMMENTS':
         requestComments();
@@ -33,9 +36,12 @@
 
   # Handles POST requests.
   # Parameters:
-  # $action: String representing an action requested by the front-end.
+  # - $action: String representing an action requested by the front-end.
   function postRequests($action) {
     switch ($action) {
+      case 'REGISTER':
+        registerUser();
+        break;
       case 'COMMENT':
         postComment();
         break;
@@ -53,6 +59,40 @@
       if ($_GET['rememberMe'] == 'true') {
         setcookie('username', $username, time() + 3600 * 24 * 30, '/', '', 0);
       }
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the registration of a user to the application.
+  function registerUser() {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
+    $gender = $_POST['gender'];
+    $country = $_POST['country'];
+    $profilePicture = 'images/default_user_image.png';
+
+    $response = attemptRegistration($username, $password, $firstName, $lastName, $email, $gender,
+                                    $country, $profilePicture);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code'], 'The username provided already exists');
+    }
+  }
+
+  # Handles the request for the profile of a given user.
+  function requestProfile() {
+    $username = $_GET['username'];
+
+    $response = retrieveProfile($username);
+
+    if ($response['status'] == 'SUCCESS') {
       echo json_encode($response['response']);
     } else {
       errorHandler($response['status'], $response['code']);
@@ -94,18 +134,28 @@
 
   # Handles errors that occured in the data layer and returns an appropriate message to front-end.
   # Parameters:
-  # $status: Integer representing the status/reason of the error.
-  # $code: Integer representing an HTTP error code.
-  function errorHandler($status, $code) {
+  # - $status: Integer representing the status/reason of the error.
+  # - $code: Integer representing an HTTP error code.
+  # - $message: String representing an specific message to be sent to the front-end. If null, a
+  #   default message for each error code will be used.
+  function errorHandler($status, $code, $message = null) {
     switch ($code) {
       case 406:
         header("HTTP/1.1 $code User $status");
-        die('Wrong credentials provided');
+        if ($message == null)
+          $message = 'Wrong credentials provided'; 
+        break;
+      case 409:
+        header("HTTP/1.1 $code $status");
+        if ($message == null)
+          $message = 'There was a conflict with the data being sent'; 
         break;
       case 500:
         header("HTTP/1.1 $code $status. Bad connection, portal is down");
-        die("The server is down, we couldn't retrieve data from the database");
+        if ($message == null)
+          $message = "The server is down, we couldn't retrieve data from the database";
         break;
-    } 
+    }
+    die($message);
   }
 ?>

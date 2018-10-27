@@ -214,17 +214,18 @@ function checkLoginCredentials($username, $password, $error) {
 // a new user.
 function registerUser() {
   let jsonToSend = {
-    'username': $('#registrationUsername').val(),
-    'password': $('#registrationPass').val(),
-    'firstName': $('#registrationFName').val(),
-    'lastName': $('#registrationLName').val(),
+    'action': 'REGISTER',
+    'country': $("#registrationCountry").val(),
     'email': $('#registrationEmail').val(),
+    'firstName': $('#registrationFName').val(),
     'gender': $("input[type=radio][name=gender]:checked").val(),
-    'country': $("#registrationCountry").val()
+    'lastName': $('#registrationLName').val(),
+    'password': $('#registrationPass').val(),
+    'username': $('#registrationUsername').val()
   };
 
   $.ajax({
-    url: './assets/registrationService.php',
+    url: './assets/applicationLayer.php',
     type: 'POST',
     data: jsonToSend,
     ContentType: 'application/json',

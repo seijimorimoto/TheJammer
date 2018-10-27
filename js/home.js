@@ -168,24 +168,25 @@ function setUserImages() {
 // the DB. This function must be called after the session variables are retrieved from the server.
 function getUserProfile() {
   $.ajax({
-    url: './assets/profileService.php',
+    url: './assets/applicationLayer.php',
     type: 'GET',
     data: {
+      'action': 'PROFILE',
       'username': userInfo.username
     },
     ContentType: 'application/json',
     dataType: 'json',
     success: function(data) {
-      completeName = data.profile[0].completeName;
-      $('#username').text('@' + data.profile[0].username);
+      completeName = data[0].completeName;
+      $('#username').text('@' + data[0].username);
       $('#completeName').text(completeName);
-      $('#email').text(data.profile[0].email);
-      if (data.profile[0].gender === 'M') {
+      $('#email').text(data[0].email);
+      if (data[0].gender === 'M') {
         $('#gender').text('Male');
       } else {
         $('#gender').text('Female');
       }
-      $('#country').text(data.profile[0].country);
+      $('#country').text(data[0].country);
     },
     error: function(err) {
       console.log(err);

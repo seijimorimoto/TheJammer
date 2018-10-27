@@ -27,9 +27,10 @@
     $conn = connect();
 
     if ($conn != null) {
-      $stmt = $conn->prepare("SELECT firstName, lastName, profilePicture
-                              FROM Users
-                              WHERE username = ? AND passwd = ?");
+      $sql = "SELECT firstName, lastName, profilePicture
+              FROM Users
+              WHERE username = ? AND passwd = ?";
+      $stmt = $conn->prepare($sql);
 
       $stmt->bind_param('ss', $username, $password);
       $stmt->execute();
@@ -57,6 +58,104 @@
       }
 
       $stmt->close();
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Attempts the registration of a user.
+  # Parameters:
+  # - $username: String representing the username of the user to be registered.
+  # - $password: String representing the password of the user to be registered.
+  # - $firstName: String representing the first name of the user to be registered.
+  # - $lastName: String representing the last name of the user to be registered.
+  # - $email: String representing the email of the user to be registered.
+  # - $gender: Single character string representing the gender of the user to be registered (M/F).
+  # - $country: String representing the country code of the user to be registered.
+  # - $profilePicture: String representing the path to the profile pic of the user to be registered.
+  # Return: Array with a status of the result of the operation and a response (in case it was
+  # successful) or an error code.
+  function attemptRegistration($username, $password, $firstName, $lastName, $email, $gender,
+    $country, $profilePicture) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT username FROM Users WHERE username = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('s', $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      if ($result->num_rows == 0) {
+        $stmt->close();
+        $sql = "INSERT INTO Users
+                  (username, passwd, firstName, lastName, email, gender, profilePicture, country)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssssss', $username, $password, $firstName, $lastName, $email, $gender,
+                          $profilePicture, $country);
+        
+        if ($stmt->execute()) {
+          $stmt->close();
+          $conn->close();
+
+          session_start();
+          $_SESSION['firstName'] = $firstName;
+          $_SESSION['lastName'] = $lastName;
+          $_SESSION['username'] = $username;
+          $_SESSION['profilePicture'] = $profilePicture;
+
+          return array('status' => 'SUCCESS', 'response' => 'Successful user registration');
+        } else {
+          $stmt->close();
+          $conn->close();
+          return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+        }
+      }
+
+      else {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'CONFLICT', 'code' => 409);
+      }
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Retrieves the profile information of a given user.
+  # Parameters:
+  # - $username: String representing the username whose profile is to be retrieved.
+  # Return: Array with a status of the result of the operation and a response with the profile
+  # information (in case it was successful) or an error code.
+  function retrieveProfile($username) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT
+                username, CONCAT(firstName, ' ', lastName) AS completeName, email, gender, country,
+                profilePicture
+              FROM Users
+              WHERE username = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('s', $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      if ($result->num_rows > 0) {
+        $response = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'SUCCESS', 'response' => $response);
+      } else {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'NOT_FOUND', 'code' => 406);
+      }
     }
 
     else {
