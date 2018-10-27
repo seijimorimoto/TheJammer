@@ -212,8 +212,10 @@ $('#homeTab').on('click', function(event) {
 // the login/registration page.
 $('#logout').on('click', function(event) {
   $.ajax({
-    url: './assets/sessionService.php',
+    url: './assets/applicationLayer.php',
     type: 'DELETE',
+    data: { 'action': 'SESSION' },
+    ContentType: 'application/json',
     dataType: 'json',
     success: function(data) {
       $(location).attr('href', './index.html');
@@ -228,8 +230,10 @@ $('#logout').on('click', function(event) {
 // success. If the session does not exists, then it redirects to the login/registration page.
 function retrieveSession(callback = function() {}) {
   $.ajax({
-    url: './assets/sessionService.php',
+    url: './assets/applicationLayer.php',
     type: 'GET',
+    data: { 'action': 'SESSION' },
+    ContentType: 'application/json',
     dataType: 'json',
     success: function(data) {
       userInfo = data;

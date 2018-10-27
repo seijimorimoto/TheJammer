@@ -1,8 +1,10 @@
 // AJAX GET request to the sessionService executed when the page loads. Determines whether a session
 // exists. If it does, then it redirects to the home page of the logged in user.
 $.ajax({
-  url: './assets/sessionService.php',
+  url: './assets/applicationLayer.php',
   type: 'GET',
+  data: { 'action': 'SESSION' },
+  ContentType: 'application/json',
   dataType: 'json',
   success: function(data) {
     $(location).attr('href', './home.html');
