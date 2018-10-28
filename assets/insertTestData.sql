@@ -31,8 +31,8 @@ VALUES (
   STR_TO_DATE('04/08/2018 13:25', '%d/%m/%Y %H:%i')
 );
 
-INSERT INTO Followers (username1, username2)
-VALUES ('Deku', 'All Might');
+INSERT INTO Friends (username1, username2, requestAccepted)
+VALUES ('Deku', 'All Might', 1);
 
-INSERT INTO Followers (username1, username2)
-VALUES ('Deku', 'Uravity');
+INSERT INTO Friends (username1, username2, requestAccepted)
+VALUES ('Deku', 'Uravity', 1);

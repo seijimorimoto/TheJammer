@@ -21,8 +21,11 @@ CREATE TABLE Comments (
 
 ALTER TABLE Comments AUTO_INCREMENT=1;
 
-CREATE TABLE Followers (
+CREATE TABLE Friends (
   username1 VARCHAR(50) NOT NULL,
   username2 VARCHAR(50) NOT NULL,
-  PRIMARY KEY (username1, username2)
+  requestAccepted TINYINT(1) NOT NULL,
+  PRIMARY KEY (username1, username2),
+  FOREIGN KEY (username1) REFERENCES Users(username),
+  FOREIGN KEY (username2) REFERENCES Users(username)
 );

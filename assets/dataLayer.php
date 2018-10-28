@@ -171,13 +171,13 @@
                 CONCAT(U.firstName, ' ', U.lastName) AS completeName, U.profilePicture 
               FROM Comments C JOIN Users U ON C.username = U.username
               WHERE C.username IN
-              (SELECT DISTINCT(username2)
-               FROM Followers
-               WHERE username1 = ?)
+              (SELECT DISTINCT(username2) FROM Friends WHERE username1 = ?
+               UNION
+               SELECT DISTINCT(username1) FROM Friends WHERE username2 = ?)
               OR C.username = ?
               ORDER BY commentDate DESC";
       $stmt = $conn->prepare($sql);
-      $stmt->bind_param('ss', $username, $username);
+      $stmt->bind_param('sss', $username, $username, $username);
       $stmt->execute();
       $result = $stmt->get_result();
 
@@ -229,6 +229,42 @@
         $conn->close();
         return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
       }
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Retrieves the username, completeName and profilePicture of all users that are not friends of the
+  # current user (and that doesn't have already a friend request from him) and whose username,
+  # firstName or lastName match a given pattern.
+  # Parameters:
+  # - $username: String representing the username of the current user.
+  # - $pattern: String representing the search pattern.
+  # Return: Array with a status of the result of the operation and a response with the information
+  # of the users (in case it was successful) or an error code.
+  function findNewFriends($username, $pattern) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT username, CONCAT(firstName, ' ', lastName) AS completeName, profilePicture
+              FROM Users
+              WHERE username NOT IN
+              (SELECT username2 FROM Friends WHERE username1 = ?
+               UNION
+               SELECT username1 FROM Friends WHERE username2 = ?)
+              AND (username LIKE ? OR firstName LIKE ? OR lastName LIKE ?)
+              AND username != ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('ssssss', $username, $username, $pattern, $pattern, $pattern, $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      $response = $result->fetch_all(MYSQLI_ASSOC);
+      $stmt->close();
+      $conn->close();
+      return array('status' => 'SUCCESS', 'response' => $response);
     }
 
     else {

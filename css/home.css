@@ -1,4 +1,16 @@
-.flowContainer {
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.blueHover:hover {
+  color: #1e7af3;
+}
+
+.floatContainer {
   overflow: hidden;
 }
 
@@ -72,7 +84,7 @@
   margin-top: 7px;
 }
 
-.commentBox {
+.whiteBox {
   background-color: white;
   border-color: #EDF0F5;
   border-style: solid;
@@ -81,7 +93,7 @@
   cursor: pointer;
 }
 
-.commentBox:hover {
+.whiteBox:hover {
   background-color: #f5f8ff;
 }
 
@@ -107,6 +119,33 @@
   cursor: pointer;
   color: aqua;
 }
+
+.searchResult > * {
+  align-self: center;
+  justify-self: center;
+}
+
+.searchResultImage {
+  border-radius: 50%;
+  display: block;
+  height: 74px;
+  margin: 10px 0;
+  width: 74px;
+}
+
+.searchResultData > span {
+  display: block;
+  font-size: 20px;
+}
+
+.searchResultCompleteName {
+  font-weight: bold;
+}
+
+.searchResultUsername {
+  color: gray;
+}
+
 
 #logo {
   padding: 10px 0px;
@@ -212,6 +251,16 @@
 
 #addCommentBtn:hover {
   background-color: #0F3C7F;
+}
+
+#searchResultsHeader {
+  background-color: #0F3C7F;
+  border-radius: 5px 5px 0px 0px;
+  color: #f5f8ff;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 12px 0;
+  text-align: center;
 }
 
 @media only screen and (max-width: 600px) {

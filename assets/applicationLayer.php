@@ -36,6 +36,9 @@
       case 'COMMENTS':
         requestComments();
         break;
+      case 'SEARCH':
+        searchNewFriends();
+        break;
       case 'SESSION':
         retrieveSession();
         break;
@@ -156,6 +159,20 @@
     }
 
     $response = insertComment($username, $content, $commentDate, $repliedCommentId);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for searching new friends.
+  function searchNewFriends() {
+    $username = $_GET['username'];
+    $pattern = $_GET['pattern'] . '%';
+
+    $response = findNewFriends($username, $pattern);
 
     if ($response['status'] == 'SUCCESS') {
       echo json_encode($response['response']);

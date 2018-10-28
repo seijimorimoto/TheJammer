@@ -141,7 +141,7 @@ function createCommentAsHtml(comment) {
     comment.profilePicture = 'images/default_user_image.png';
   }
 
-  return `<div class="commentBox twoColumnGrid">
+  return `<div class="whiteBox twoColumnGrid">
             <img class="smallUserImage" src="${comment.profilePicture}" alt="User Image">
             <div class="comment">
               <div class="commentHeader">
@@ -194,18 +194,70 @@ function getUserProfile() {
   });
 }
 
-// When the #profileTab is clicked, display the profile section and hide the home section.
-$('#profileTab').on('click', function(event) {
-  $('#homeSection').addClass('hidden');
-  $('#homeTab').removeClass('selected');
-  $('#profileSection').removeClass('hidden');
+// When the ENTER key is pressed while the searchBox is focused, performs an AJAX GET request to
+// search for all the users that match the pattern in the searchBox and that aren't already friends
+// and that do not have already a friend request from the current user.
+$('#searchBox').keypress(function(event) {
+  let keyPressed = event.which;
+  if (keyPressed == 13) { // The key code of ENTER.
+    let pattern = $(this).val().trim();
+    if (pattern != '') {
+      $.ajax({
+        url: './assets/applicationLayer.php',
+        type: 'GET',
+        data: {
+          'action': 'SEARCH',
+          'pattern': pattern,
+          'username': userInfo.username
+        },
+        ContentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+          $('#searchResultsBody').html('');
+          if (data.length > 0) {
+            $('#searchResultsHeaderText').text(`Search results for '${pattern}'`);
+            for (let index in data) {
+              appendSearchResultToSearchList(data[index]);
+            }
+          } else {
+            $('#searchResultsHeaderText').text(`No results found for '${pattern}'`);
+          }
+          activateSection('searchSection');
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    }
+  }
 });
 
-// When the #homeTab is clicked, display the home section and hide the profile section.
+// Adds a user's information to the river of search results.
+function appendSearchResultToSearchList(user) {
+  let newHtml = createSearchResultAsHtml(user);
+  $('#searchResultsBody').append(newHtml);
+}
+
+// Creates HTML content to hold a search result and to display it appropriately on the home page. 
+function createSearchResultAsHtml(user) {
+  return `<div class="whiteBox gridContainer searchResult">
+            <img class="searchResultImage" src="${user.profilePicture}">
+            <div class="searchResultData">
+              <span class="searchResultCompleteName">${user.completeName}</span>
+              <span class="searchResultUsername">@${user.username}</span>
+            </div>
+            <i class="material-icons md-36 md-dark blueHover">person_add</i>
+          </div>`;
+}
+
+// When the #profileTab is clicked, display the profile section and hide the others.
+$('#profileTab').on('click', function(event) {
+  activateSection('profileSection');
+});
+
+// When the #homeTab is clicked, display the home section and hide the others.
 $('#homeTab').on('click', function(event) {
-  $('#profileSection').addClass('hidden');
-  $('#homeSection').removeClass('hidden');
-  $('#homeTab').addClass('selected');
+  activateSection('homeSection', 'homeTab');
 });
 
 // When the #logout is clicked, call the sessionService to terminate the session and redirect to
@@ -225,6 +277,22 @@ $('#logout').on('click', function(event) {
     }
   });
 });
+
+// Activates/displays a specific HTML section and hides the currently displayed section.
+function activateSection(sectionId, tabId = null) {
+  let $currentSection = $('section').not('.hidden')[0];
+  $($currentSection).addClass('hidden');
+  $(`#${sectionId}`).removeClass('hidden');
+
+  let $currentTab = $('.menuItem.selected')[0];
+  $($currentTab).removeClass('selected');
+  if (tabId != null) {
+    let $tabToSelect = $(`#${tabId}`); 
+    if ($tabToSelect.length > 0) {
+      $($tabToSelect).addClass('selected');
+    }
+  }
+}
 
 // Retrieves the session variables and calls the callback function (default, an empty function) on
 // success. If the session does not exists, then it redirects to the login/registration page.
