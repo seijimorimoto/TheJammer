@@ -76,10 +76,17 @@
     $response = attemptLogin($username, $password);
     
     if ($response['status'] == 'SUCCESS') {
+      session_start();
+      $_SESSION['firstName'] = $response['response']['firstName'];
+      $_SESSION['lastName'] = $response['response']['lastName'];
+      $_SESSION['username'] = $username;
+      $_SESSION['profilePicture'] = $response['response']['profilePicture'];
+
       if ($_GET['rememberMe'] == 'true') {
         setcookie('username', $username, time() + 3600 * 24 * 30, '/', '', 0);
       }
-      echo json_encode($response['response']);
+
+      echo json_encode($response['response']['message']);
     } else {
       errorHandler($response['status'], $response['code']);
     }
@@ -100,6 +107,11 @@
                                     $country, $profilePicture);
 
     if ($response['status'] == 'SUCCESS') {
+      session_start();
+      $_SESSION['firstName'] = $firstName;
+      $_SESSION['lastName'] = $lastName;
+      $_SESSION['username'] = $username;
+      $_SESSION['profilePicture'] = $profilePicture;
       echo json_encode($response['response']);
     } else {
       errorHandler($response['status'], $response['code'], 'The username provided already exists');

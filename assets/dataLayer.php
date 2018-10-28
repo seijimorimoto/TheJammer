@@ -37,18 +37,18 @@
       $result = $stmt->get_result();
 
       if ($result->num_rows > 0) {
-        session_start();
-
         while ($row = $result->fetch_assoc()) {
-          $_SESSION['firstName'] = $row['firstName'];
-          $_SESSION['lastName'] = $row['lastName'];
-          $_SESSION['username'] = $username;
-          $_SESSION['profilePicture'] = $row['profilePicture'];
+          $firstName = $row['firstName'];
+          $lastName = $row['lastName'];
+          $profilePicture = $row['profilePicture'];
         }
+
+        $response = array('firstName' => $firstName, 'lastName' => $lastName,
+                             'profilePicture' => $profilePicture, 'message' => 'Successful login');
 
         $stmt->close();
         $conn->close();
-        return array('status' => 'SUCCESS', 'response' => 'Successful login');
+        return array('status' => 'SUCCESS', 'response' => $response);
       }
       
       else {
@@ -100,13 +100,6 @@
         if ($stmt->execute()) {
           $stmt->close();
           $conn->close();
-
-          session_start();
-          $_SESSION['firstName'] = $firstName;
-          $_SESSION['lastName'] = $lastName;
-          $_SESSION['username'] = $username;
-          $_SESSION['profilePicture'] = $profilePicture;
-
           return array('status' => 'SUCCESS', 'response' => 'Successful user registration');
         } else {
           $stmt->close();
