@@ -9,6 +9,15 @@ VALUES ('All Might', 'smash', 'Toshinori', 'Yagi', 'allmight@ua.com', 'M', 'JP',
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
 VALUES ('Uravity', 'float', 'Ochako', 'Uraraka', 'uravity@ua.com', 'F', 'JP', 'images/Uravity_profile_pic.jpg');
 
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Creati', 'creation', 'Momo', 'Yaoyorozu', 'creati@ua.com', 'F', 'JP', 'images/Creati_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Kacchan', 'explosion', 'Katsuki', 'Bakugou', 'kacchan@ua.com', 'M', 'JP', 'images/Kacchan_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Todoroki', 'halfcoldhalfhot', 'Shouto', 'Todoroki', 'todoroki@ua.com', 'M', 'JP', 'images/Todoroki_profile_pic.jpg');
+
 INSERT INTO Comments (content, username, commentDate)
 VALUES (
   "Wow... I met someone amazing... someone that could possibly reach All Might's level. I'm talking
