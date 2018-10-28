@@ -56,6 +56,9 @@
       case 'COMMENT':
         postComment();
         break;
+      case 'FRIEND_REQUEST':
+        sendFriendRequest();
+        break;
     }
   }
 
@@ -173,6 +176,20 @@
     $pattern = $_GET['pattern'] . '%';
 
     $response = findNewFriends($username, $pattern);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  // Handles the request for sending a friend request to another user.
+  function sendFriendRequest() {
+    $username1 = $_POST['username1'];
+    $username2 = $_POST['username2'];
+
+    $response = addFriend($username1, $username2);
 
     if ($response['status'] == 'SUCCESS') {
       echo json_encode($response['response']);

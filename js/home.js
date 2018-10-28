@@ -246,9 +246,37 @@ function createSearchResultAsHtml(user) {
               <span class="searchResultCompleteName">${user.completeName}</span>
               <span class="searchResultUsername">@${user.username}</span>
             </div>
-            <i class="material-icons md-36 md-dark blueHover">person_add</i>
+            <i class="material-icons md-36 md-dark blueHover addIcon">person_add</i>
           </div>`;
 }
+
+// When any .addIcon is clicked, performs an AJAX POST request to send a friend request to the user
+// corresponding to the .addIcon clicked. In this event listener, #searchResultsBody is the targeted
+// element and .addIcon is passed as a selector since dynamically generated content (the .addIcon
+// elements in this case) cannot be directly bounded to event listeners in JQuery.
+$('#searchResultsBody').on('click', '.addIcon', function(event) {
+  let $iconClicked = this;
+  let $username2 = $($iconClicked).parent().find('.searchResultUsername')[0];
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'POST',
+    data: {
+      'action': 'FRIEND_REQUEST',
+      'username1': userInfo.username,
+      'username2': $($username2).text().slice(1)
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      $($iconClicked).addClass('md-inactive');
+      $($iconClicked).removeClass('blueHover');
+      $($iconClicked).removeClass('addIcon');
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+});
 
 // When the #profileTab is clicked, display the profile section and hide the others.
 $('#profileTab').on('click', function(event) {

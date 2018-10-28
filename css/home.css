@@ -3,7 +3,12 @@
 }
 
 .material-icons.md-dark {
-  color: rgba(0, 0, 0, 0.54);
+  color: #0000008a;
+}
+
+.material-icons.md-dark.md-inactive {
+  color: #00000042;
+  cursor: not-allowed;
 }
 
 .material-icons.blueHover:hover {

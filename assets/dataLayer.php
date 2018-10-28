@@ -272,4 +272,35 @@
     }
   }
 
+  # Adds a friendship relationship between two users, but this friendship is only truly established
+  # until the $username2 accepts the friend request.
+  # Parameters:
+  # - $username1: String representing the username of the user who sent the friend request.
+  # - $username2: String representing the username of the user who will receive the friend request.
+  # Return: Array with a status of the result of the operation and a response (in case it was
+  # successful) or an error code.
+  function addFriend($username1, $username2) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "INSERT INTO Friends (username1, username2, requestAccepted) VALUES (?, ?, 0)";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('ss', $username1, $username2);
+      
+      if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'SUCCESS', 'response' => 'Successfully sent friend request');
+      } else {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+      }
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
 ?>
