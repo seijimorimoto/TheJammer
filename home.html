@@ -12,8 +12,8 @@
     <div>
       <ul class="menu">
         <li id="homeTab" class="menuItem selected">Home</li>
-        <li id="notificationsTab" class="menuItem">Notifications</li>
-        <li id="messagesTab" class="menuItem">Messages</li>
+        <li id="friendsTab" class="menuItem">Friends</li>
+        <li id="friendRequestsTab" class="menuItem">Friend Requests</li>
       </ul>
     </div>
     <div id="logoDiv">
@@ -65,7 +65,7 @@
       </div>
       <div class="column middleColumn">
         <div id="searchResultsArea">
-          <div id="searchResultsHeader">
+          <div id="searchResultsHeader" class="resultHeaderBox">
             <span id="searchResultsHeaderText">Search results for ''</span>
           </div>
           <div id="searchResultsBody">
@@ -100,6 +100,52 @@
       <div class="column leftRightColumn">
         <div>
           <!-- To include more elements here in the future... -->
+        </div>
+      </div>
+    </section>
+
+    <section id="friendSection" class="hidden">
+      <div class="column leftRightColumn">
+        <div>
+          <!-- To include more elements here in the future... -->
+        </div>
+      </div>
+      <div class="column middleColumn">
+        <div>
+          <div id="postGrid" class="twoColumnGrid">
+            <img id="postUserImage" class="smallUserImage" src="images/default_user_image.png" alt="User Image">
+            <textarea id="postBox" placeholder="What do you have to tell?"></textarea>
+            <button id="addCommentBtn" class="centeredRow button hidden" disabled>Add Comment</button>
+          </div>
+          <div id="commentArea">
+
+          </div>
+        </div>
+      </div>
+      <div class="column leftRightColumn">
+        <div>
+          <!-- To include more elements here in the future... -->
+        </div>
+      </div>
+    </section>
+
+    <section id="friendRequestSection" class="hidden">
+      <div class="column halfWidthColumn">
+        <div class="leftFriendBox">
+          <div id="inFriendRequestsHeader" class="resultHeaderBox">
+            <span>Incoming friend requests</span>
+          </div>
+          <div id="inFriendRequestsBody">
+          </div>
+        </div>
+      </div>
+      <div class="column halfWidthColumn">
+        <div class="rightFriendBox">
+          <div id="outFriendRequestsHeader" class="resultHeaderBox">
+            <span>Outgoing friend requests</span>
+          </div>
+          <div id="outFriendRequestsBody">
+          </div>
         </div>
       </div>
     </section>

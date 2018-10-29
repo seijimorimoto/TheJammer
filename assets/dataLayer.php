@@ -171,9 +171,9 @@
                 CONCAT(U.firstName, ' ', U.lastName) AS completeName, U.profilePicture 
               FROM Comments C JOIN Users U ON C.username = U.username
               WHERE C.username IN
-              (SELECT DISTINCT(username2) FROM Friends WHERE username1 = ?
+              (SELECT DISTINCT(username2) FROM Friends WHERE username1 = ? AND requestAccepted = 1
                UNION
-               SELECT DISTINCT(username1) FROM Friends WHERE username2 = ?)
+               SELECT DISTINCT(username1) FROM Friends WHERE username2 = ? AND requestAccepted = 1)
               OR C.username = ?
               ORDER BY commentDate DESC";
       $stmt = $conn->prepare($sql);
@@ -291,6 +291,124 @@
         $stmt->close();
         $conn->close();
         return array('status' => 'SUCCESS', 'response' => 'Successfully sent friend request');
+      } else {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+      }
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Retrieves the username, completeName and profilePicture of all users that sent a friend request
+  # to the current user.
+  # Parameters:
+  # - $username: String representing the username of the current user.
+  # Return: Array with a status of the result of the operation and a response with the information
+  # of the users (in case it was successful) or an error code.
+  function retrieveIncomingFriendRequests($username) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT username, CONCAT(firstName, ' ', lastName) AS completeName, profilePicture
+              FROM Users U JOIN Friends F ON U.username = F.username1
+              WHERE F.username2 = ? AND requestAccepted = 0";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('s', $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      $response = $result->fetch_all(MYSQLI_ASSOC);
+      $stmt->close();
+      $conn->close();
+      return array('status' => 'SUCCESS', 'response' => $response);
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Retrieves the username, completeName and profilePicture of all users that received a friend
+  # request from the current user.
+  # Parameters:
+  # - $username: String representing the username of the current user.
+  # Return: Array with a status of the result of the operation and a response with the information
+  # of the users (in case it was successful) or an error code.
+  function retrieveOutgoingFriendRequests($username) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT username, CONCAT(firstName, ' ', lastName) AS completeName, profilePicture
+              FROM Users U JOIN Friends F ON U.username = F.username2
+              WHERE F.username1 = ? AND requestAccepted = 0";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('s', $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      $response = $result->fetch_all(MYSQLI_ASSOC);
+      $stmt->close();
+      $conn->close();
+      return array('status' => 'SUCCESS', 'response' => $response);
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Accepts a friend request sent by another user.
+  # Parameters:
+  # - $username1: String representing the username who sent the friend request.
+  # - $username2: String representing the username who is accepting the friend request.
+  # Return: Array with a status of the result of the operation and a response (in case it was
+  # successful) or an error code.
+  function acceptFriendRequest($username1, $username2) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "UPDATE Friends SET requestAccepted = 1 WHERE username1 = ? AND username2 = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('ss', $username1, $username2);
+
+      if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'SUCCESS', 'response' => 'Successfully accepted friend request');
+      } else {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+      }
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
+
+  # Rejects a friend request sent by another user.
+  # Parameters:
+  # - $username1: String representing the username who sent the friend request.
+  # - $username2: String representing the username who is rejecting the friend request.
+  # Return: Array with a status of the result of the operation and a response (in case it was
+  # successful) or an error code.
+  function rejectFriendRequest($username1, $username2) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "DELETE FROM Friends WHERE username1 = ? AND username2 = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('ss', $username1, $username2);
+
+      if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return array('status' => 'SUCCESS', 'response' => 'Successfully rejected friend request');
       } else {
         $stmt->close();
         $conn->close();

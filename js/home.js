@@ -84,6 +84,7 @@ $('#addCommentBtn').on('click', function(event) {
 // user or any of the people he follows and adds them to the page. This function must be called
 // after the session variables are retrieved from the server.
 function getComments() {
+  $('#commentArea').html('');
   $.ajax({
     url: './assets/applicationLayer.php',
     type: 'GET',
@@ -240,11 +241,11 @@ function appendSearchResultToSearchList(user) {
 
 // Creates HTML content to hold a search result and to display it appropriately on the home page. 
 function createSearchResultAsHtml(user) {
-  return `<div class="whiteBox gridContainer searchResult">
-            <img class="searchResultImage" src="${user.profilePicture}">
-            <div class="searchResultData">
-              <span class="searchResultCompleteName">${user.completeName}</span>
-              <span class="searchResultUsername">@${user.username}</span>
+  return `<div class="whiteBox gridContainer result">
+            <img class="resultImage" src="${user.profilePicture}">
+            <div class="resultData">
+              <span class="resultCompleteName">${user.completeName}</span>
+              <span class="resultUsername">@${user.username}</span>
             </div>
             <i class="material-icons md-36 md-dark blueHover addIcon">person_add</i>
           </div>`;
@@ -256,7 +257,7 @@ function createSearchResultAsHtml(user) {
 // elements in this case) cannot be directly bounded to event listeners in JQuery.
 $('#searchResultsBody').on('click', '.addIcon', function(event) {
   let $iconClicked = this;
-  let $username2 = $($iconClicked).parent().find('.searchResultUsername')[0];
+  let $username2 = $($iconClicked).parent().find('.resultUsername')[0];
   $.ajax({
     url: './assets/applicationLayer.php',
     type: 'POST',
@@ -278,14 +279,172 @@ $('#searchResultsBody').on('click', '.addIcon', function(event) {
   });
 });
 
+// Retrieves incoming and outgoing friend requests.
+function getFriendRequests() {
+  getIncomingFriendRequests();
+  getOutgoingFriendRequests();
+}
+
+// Executes an AJAX GET request to the in_friend_request service. Retrieves friend requests received
+// by the current user. This function must be called after the session variables are retrieved from
+// the server.
+function getIncomingFriendRequests() {
+  $('#inFriendRequestsBody').html('');
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'GET',
+    data: {
+      'action': 'IN_FRIEND_REQUEST',
+      'username': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      for (let index in data) {
+        appendIncomingFriendRequestToList(data[index]);
+      }
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
+
+// Executes an AJAX GET request to the out_friend_request service. Retrieves friend requests sent
+// by the current user. This function must be called after the session variables are retrieved from
+// the server.
+function getOutgoingFriendRequests() {
+  $('#outFriendRequestsBody').html('');
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'GET',
+    data: {
+      'action': 'OUT_FRIEND_REQUEST',
+      'username': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      for (let index in data) {
+        appendOutgoingFriendRequestToList(data[index]);
+      }
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
+
+// Adds the information of a friend request to the river of incoming friend requests.
+function appendIncomingFriendRequestToList(friendRequest) {
+  let newHtml = createIncomingFriendRequestAsHtml(friendRequest);
+  $('#inFriendRequestsBody').append(newHtml);
+}
+
+// Creates HTML content to hold an incoming friend request and to display it appropriately on the
+// section for incoming friend requests.
+function createIncomingFriendRequestAsHtml(friendRequest) {
+  return `<div class="whiteBox gridContainer result">
+            <img class="resultImage" src="${friendRequest.profilePicture}">
+            <div class="resultData">
+              <span class="resultCompleteName">${friendRequest.completeName}</span>
+              <span class="resultUsername">@${friendRequest.username}</span>
+            </div>
+            <div>
+              <i class="material-icons md-36 md-dark greenHover acceptIcon">check_circle</i>
+              <i class="material-icons md-36 md-dark redHover cancelIcon">cancel</i>
+            </div>
+          </div>`;
+}
+
+// Adds the information of a friend request to the river of outgoing friend requests.
+function appendOutgoingFriendRequestToList(friendRequest) {
+  let newHtml = createOutgoingFriendRequestAsHtml(friendRequest);
+  $('#outFriendRequestsBody').append(newHtml);
+}
+
+// Creates HTML content to hold an outgoing friend request and to display it appropriately on the
+// section for outgoing friend requests.
+function createOutgoingFriendRequestAsHtml(friendRequest) {
+  return `<div class="whiteBox gridContainer2 result">
+            <img class="resultImage" src="${friendRequest.profilePicture}">
+            <div class="resultData">
+              <span class="resultCompleteName">${friendRequest.completeName}</span>
+              <span class="resultUsername">@${friendRequest.username}</span>
+            </div>
+          </div>`;
+}
+
+// When any .acceptIcon is clicked, performs an AJAX PUT request to accept the friend request from a
+// user corresponding to the .acceptIcon clicked. In this event listener, #inFriendRequestsBody is
+// the targeted element and .acceptIcon is passed as a selector since dynamically generated content
+// (the .acceptIcon elements in this case) cannot be directly bounded to event listeners in JQuery.
+$('#inFriendRequestsBody').on('click', '.acceptIcon', function(event) {
+  let $friendRequest = $(this).parent().parent();
+  let $username1 = $($friendRequest).find('.resultUsername')[0];
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'PUT',
+    data: {
+      'action': 'FRIEND_REQUEST',
+      'username1': $($username1).text().slice(1),
+      'username2': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      $($friendRequest).remove();
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+});
+
+// When any .cancelIcon is clicked, performs an AJAX DELETE request to cancel the friend request
+// from a user corresponding to the .cancelIcon clicked. In this event listener,
+// #inFriendRequestsBody is the targeted element and .cancelIcon is passed as a selector since
+// dynamically generated content (the .cancelIcon elements in this case) cannot be directly bounded
+// to event listeners in JQuery.
+$('#inFriendRequestsBody').on('click', '.cancelIcon', function(event) {
+  let $friendRequest = $(this).parent().parent();
+  let $username1 = $($friendRequest).find('.resultUsername')[0];
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'DELETE',
+    data: {
+      'action': 'FRIEND_REQUEST',
+      'username1': $($username1).text().slice(1),
+      'username2': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      $($friendRequest).remove();
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+});
+
 // When the #profileTab is clicked, display the profile section and hide the others.
 $('#profileTab').on('click', function(event) {
   activateSection('profileSection');
 });
 
-// When the #homeTab is clicked, display the home section and hide the others.
+// When the #homeTab is clicked, display the home section and hide the others. Call as well the
+// service to get all the comments posted by the current user and his friends.
 $('#homeTab').on('click', function(event) {
   activateSection('homeSection', 'homeTab');
+  retrieveSession(getComments());
+});
+
+// When the #friendRequestsTab is clicked, display the friend requests tab and hide the others.
+// Call as well the service to get all the friend requests.
+$('#friendRequestsTab').on('click', function(event) {
+  activateSection('friendRequestSection', 'friendRequestsTab');
+  retrieveSession(getFriendRequests());
 });
 
 // When the #logout is clicked, call the sessionService to terminate the session and redirect to

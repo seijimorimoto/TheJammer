@@ -20,6 +20,11 @@
       $action = $deleteParams['action'];
       deleteRequests($action, $deleteParams);
       break;
+    case 'PUT':
+      parse_str(file_get_contents('php://input'), $putParams);
+      $action = $putParams['action'];
+      putRequests($action, $putParams);
+      break;
   }
 
   # Handles GET requests.
@@ -38,6 +43,12 @@
         break;
       case 'SEARCH':
         searchNewFriends();
+        break;
+      case 'IN_FRIEND_REQUEST':
+        requestIncomingFriendRequests();
+        break;
+      case 'OUT_FRIEND_REQUEST':
+        requestOutgoingFriendRequests();
         break;
       case 'SESSION':
         retrieveSession();
@@ -68,8 +79,23 @@
   # - $deleteParams: Associative array containing params sent in the DELETE request.
   function deleteRequests($action, $deleteParams) {
     switch ($action) {
+      case 'FRIEND_REQUEST':
+        cancelFriendRequest($deleteParams);
+        break;
       case 'SESSION':
         deleteSession();
+        break;
+    }
+  }
+
+  # Handles PUT requests.
+  # Parameters:
+  # - $action: String representing an action requested by the front-end.
+  # - $putParams: Associative array containing params sent in the PUT request.
+  function putRequests($action, $putParams) {
+    switch ($action) {
+      case 'FRIEND_REQUEST':
+        confirmFriendRequest($putParams);
         break;
     }
   }
@@ -190,6 +216,64 @@
     $username2 = $_POST['username2'];
 
     $response = addFriend($username1, $username2);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for retrieving all friend request received by the current user.
+  function requestIncomingFriendRequests() {
+    $username = $_GET['username'];
+
+    $response = retrieveIncomingFriendRequests($username);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for retrieving all friend request sent by the current user.
+  function requestOutgoingFriendRequests() {
+    $username = $_GET['username'];
+
+    $response = retrieveOutgoingFriendRequests($username);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for confirming/accepting a friend request from another user.
+  # Parameters:
+  # - $params: Associative array containing params sent in the PUT request.
+  function confirmFriendRequest($params) {
+    $username1 = $params['username1'];
+    $username2 = $params['username2'];
+
+    $response = acceptFriendRequest($username1, $username2);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for cancelling a friend request from another user.
+  # Parameters:
+  # - $params: Associative array containing params sent in the DELETE request.
+  function cancelFriendRequest($params) {
+    $username1 = $params['username1'];
+    $username2 = $params['username2'];
+
+    $response = rejectFriendRequest($username1, $username2);
 
     if ($response['status'] == 'SUCCESS') {
       echo json_encode($response['response']);
