@@ -428,6 +428,49 @@ $('#inFriendRequestsBody').on('click', '.cancelIcon', function(event) {
   });
 });
 
+// Executes an AJAX GET request to the friends service. Retrieves the information of all the friends
+// of the current user. This function must be called after the session variables are retrieved from
+// the server.
+function getFriends() {
+  $('#friendListBody').html('');
+  $.ajax({
+    url: './assets/applicationLayer.php',
+    type: 'GET',
+    data: {
+      'action': 'FRIENDS',
+      'username': userInfo.username
+    },
+    ContentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      for (let index in data) {
+        appendFriendToList(data[index]);
+      }
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
+
+// Adds the information of a friend to the river/list of friends displayed in the Friend section.
+function appendFriendToList(friend) {
+  let newHtml = createFriendInfoAsHtml(friend);
+  $('#friendListBody').append(newHtml);
+}
+
+// Creates HTML content to hold the information of a friend and to display it appropriately on the
+// Friend section.
+function createFriendInfoAsHtml(friend) {
+  return `<div class="whiteBox gridContainer2 result">
+            <img class="resultImage" src="${friend.profilePicture}">
+            <div class="resultData">
+              <span class="resultCompleteName">${friend.completeName}</span>
+              <span class="resultUsername">@${friend.username}</span>
+            </div>
+          </div>`;
+}
+
 // When the #profileTab is clicked, display the profile section and hide the others.
 $('#profileTab').on('click', function(event) {
   activateSection('profileSection');
@@ -445,6 +488,13 @@ $('#homeTab').on('click', function(event) {
 $('#friendRequestsTab').on('click', function(event) {
   activateSection('friendRequestSection', 'friendRequestsTab');
   retrieveSession(getFriendRequests());
+});
+
+// When the #friendsTab is clicked, display the friends tab and hide the others. Call as well the
+// service to get all the friends of the current user.
+$('#friendsTab').on('click', function(event) {
+  activateSection('friendSection', 'friendsTab');
+  retrieveSession(getFriends());
 });
 
 // When the #logout is clicked, call the sessionService to terminate the session and redirect to

@@ -421,4 +421,35 @@
     }
   }
 
+  # Retrieves the friends of a given user.
+  # Parameters:
+  # - $username: String representing the username whose friends are to be retrieved.
+  # Return: Array with a status of the result of the operation and a response with the friends' info
+  # (in case it was successful) or an error code.
+  function retrieveFriends($username) {
+    $conn = connect();
+
+    if ($conn != null) {
+      $sql = "SELECT username, CONCAT(firstName, ' ', lastName) AS completeName, profilePicture 
+              FROM Users
+              WHERE username IN
+              (SELECT DISTINCT(username2) FROM Friends WHERE username1 = ? AND requestAccepted = 1
+               UNION
+               SELECT DISTINCT(username1) FROM Friends WHERE username2 = ? AND requestAccepted = 1)
+              ORDER BY username ASC";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param('ss', $username, $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      $response = $result->fetch_all(MYSQLI_ASSOC);
+      $stmt->close();
+      $conn->close();
+      return array('status' => 'SUCCESS', 'response' => $response);
+    }
+
+    else {
+      return array('status' => 'INTERNAL_SERVER_ERROR', 'code' => 500);
+    }
+  }
 ?>

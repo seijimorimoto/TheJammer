@@ -50,6 +50,9 @@
       case 'OUT_FRIEND_REQUEST':
         requestOutgoingFriendRequests();
         break;
+      case 'FRIENDS':
+        requestFriends();
+        break;
       case 'SESSION':
         retrieveSession();
         break;
@@ -274,6 +277,19 @@
     $username2 = $params['username2'];
 
     $response = rejectFriendRequest($username1, $username2);
+
+    if ($response['status'] == 'SUCCESS') {
+      echo json_encode($response['response']);
+    } else {
+      errorHandler($response['status'], $response['code']);
+    }
+  }
+
+  # Handles the request for retrieving all the friends of the current user.
+  function requestFriends() {
+    $username = $_GET['username'];
+
+    $response = retrieveFriends($username);
 
     if ($response['status'] == 'SUCCESS') {
       echo json_encode($response['response']);
