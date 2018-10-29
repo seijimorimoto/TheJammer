@@ -18,6 +18,21 @@ VALUES ('Kacchan', 'explosion', 'Katsuki', 'Bakugou', 'kacchan@ua.com', 'M', 'JP
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
 VALUES ('Todoroki', 'halfcoldhalfhot', 'Shouto', 'Todoroki', 'todoroki@ua.com', 'M', 'JP', 'images/Todoroki_profile_pic.jpg');
 
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Froppy', 'frog', 'Tsuyu', 'Asui', 'froppy@ua.com', 'F', 'JP', 'images/Froppy_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Ingenium', 'engine', 'Tenya', 'Iida', 'ingenium@ua.com', 'M', 'JP', 'images/Ingenium_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Tsukuyomi', 'darkshadow', 'Fumikage', 'Tokoyami', 'tsukuyomi@ua.com', 'M', 'JP', 'images/Tsukuyomi_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Jirou', 'earphonejack', 'Kyouka', 'Jirou', 'jirou@ua.com', 'F', 'JP', 'images/Jirou_profile_pic.jpg');
+
+INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
+VALUES ('Eraserhead', 'erasure', 'Shouta', 'Aizawa', 'eraserhead@ua.com', 'M', 'JP', 'images/Eraserhead_profile_pic.jpg');
+
 INSERT INTO Comments (content, username, commentDate)
 VALUES (
   "Wow... I met someone amazing... someone that could possibly reach All Might's level. I'm talking
