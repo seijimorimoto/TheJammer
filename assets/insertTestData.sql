@@ -1,37 +1,37 @@
 -- This is a script for inserting dummy data into the database for testing purposes.
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Deku', 'oneforall', 'Izuku', 'Midoriya', 'deku@ua.com', 'M', 'JP', 'images/Deku_profile_pic.jpg');
+VALUES ('Deku', '$2y$10$rrGstDsvs2f\/UC7vX8lsGuJ0EpHgjKRuESu3FsLLy8jPVoWPdBT6m', 'Izuku', 'Midoriya', 'deku@ua.com', 'M', 'JP', 'images/Deku_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('All Might', 'smash', 'Toshinori', 'Yagi', 'allmight@ua.com', 'M', 'JP', 'images/All_Might_profile_pic.jpg');
+VALUES ('All Might', '$2y$10$MTkDkGtMHPpxSNBuhb3wau6Sm9MX.Hj0xl27D.7q8j3UbkvjHDKry', 'Toshinori', 'Yagi', 'allmight@ua.com', 'M', 'JP', 'images/All_Might_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Uravity', 'float', 'Ochako', 'Uraraka', 'uravity@ua.com', 'F', 'JP', 'images/Uravity_profile_pic.jpg');
+VALUES ('Uravity', '$2y$10$8EsdKaJDWqV4FdMOCtmkMOFGmI9ry9cEQyZHUENHv5PWgScmISKsS', 'Ochako', 'Uraraka', 'uravity@ua.com', 'F', 'JP', 'images/Uravity_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Creati', 'creation', 'Momo', 'Yaoyorozu', 'creati@ua.com', 'F', 'JP', 'images/Creati_profile_pic.jpg');
+VALUES ('Creati', '$2y$10$DGMhkJ\/klLHtbt8Uqkwqxe26vbzWPdAd15O6NM24vR5uwjTlpIqne', 'Momo', 'Yaoyorozu', 'creati@ua.com', 'F', 'JP', 'images/Creati_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Kacchan', 'explosion', 'Katsuki', 'Bakugou', 'kacchan@ua.com', 'M', 'JP', 'images/Kacchan_profile_pic.jpg');
+VALUES ('Kacchan', '$2y$10$14rcwTMPehBnyDfhliHzz.OmmhulWMK2YFBft05gfcw5mo\/4wcVPi', 'Katsuki', 'Bakugou', 'kacchan@ua.com', 'M', 'JP', 'images/Kacchan_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Todoroki', 'halfcoldhalfhot', 'Shouto', 'Todoroki', 'todoroki@ua.com', 'M', 'JP', 'images/Todoroki_profile_pic.jpg');
+VALUES ('Todoroki', '$2y$10$bihFr6qb27cwQO\/8RhVzteQvg7JPt07tmrhB2MTpy0SthyNMY8KPa', 'Shouto', 'Todoroki', 'todoroki@ua.com', 'M', 'JP', 'images/Todoroki_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Froppy', 'frog', 'Tsuyu', 'Asui', 'froppy@ua.com', 'F', 'JP', 'images/Froppy_profile_pic.jpg');
+VALUES ('Froppy', '$2y$10$rCY\/uNAMTyEqZIytsMErBe4zL2064z0m4S.IXnZrniT7PL2DaGJrC', 'Tsuyu', 'Asui', 'froppy@ua.com', 'F', 'JP', 'images/Froppy_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Ingenium', 'engine', 'Tenya', 'Iida', 'ingenium@ua.com', 'M', 'JP', 'images/Ingenium_profile_pic.jpg');
+VALUES ('Ingenium', '$2y$10$ChPowVCHtv\/ra3PTLYg34OpkW8WvfxyrtBtEV0uiqX6jZRqzpPOTu', 'Tenya', 'Iida', 'ingenium@ua.com', 'M', 'JP', 'images/Ingenium_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Tsukuyomi', 'darkshadow', 'Fumikage', 'Tokoyami', 'tsukuyomi@ua.com', 'M', 'JP', 'images/Tsukuyomi_profile_pic.jpg');
+VALUES ('Tsukuyomi', '$2y$10$HQkSv\/gyNtaEAcNQhwmwxufkG\/ujBS7ftsFmei6\/p2nyx0BZ3UYXy', 'Fumikage', 'Tokoyami', 'tsukuyomi@ua.com', 'M', 'JP', 'images/Tsukuyomi_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Jirou', 'earphonejack', 'Kyouka', 'Jirou', 'jirou@ua.com', 'F', 'JP', 'images/Jirou_profile_pic.jpg');
+VALUES ('Jirou', '$2y$10$59cKVJ6EirCQCjZ4f1f\/uOEqTQ701vCDy9HnBtvAY6LfJwRr5IT6y', 'Kyouka', 'Jirou', 'jirou@ua.com', 'F', 'JP', 'images/Jirou_profile_pic.jpg');
 
 INSERT INTO Users (username, passwd, firstName, lastName, email, gender, country, profilePicture)
-VALUES ('Eraserhead', 'erasure', 'Shouta', 'Aizawa', 'eraserhead@ua.com', 'M', 'JP', 'images/Eraserhead_profile_pic.jpg');
+VALUES ('Eraserhead', '$2y$10$mTzryzpobNkZzPRj4OgIJuy0SjM10oWQuP329Lk10C1jJIccR7u\/i', 'Shouta', 'Aizawa', 'eraserhead@ua.com', 'M', 'JP', 'images/Eraserhead_profile_pic.jpg');
 
 INSERT INTO Comments (content, username, commentDate)
 VALUES (

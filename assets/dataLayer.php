@@ -27,12 +27,12 @@
     $conn = connect();
 
     if ($conn != null) {
-      $sql = "SELECT firstName, lastName, profilePicture
+      $sql = "SELECT firstName, lastName, profilePicture, passwd
               FROM Users
-              WHERE username = ? AND passwd = ?";
+              WHERE username = ?";
       $stmt = $conn->prepare($sql);
 
-      $stmt->bind_param('ss', $username, $password);
+      $stmt->bind_param('s', $username);
       $stmt->execute();
       $result = $stmt->get_result();
 
@@ -41,14 +41,19 @@
           $firstName = $row['firstName'];
           $lastName = $row['lastName'];
           $profilePicture = $row['profilePicture'];
+          $passwordHash = $row['passwd'];
         }
-
-        $response = array('firstName' => $firstName, 'lastName' => $lastName,
-                             'profilePicture' => $profilePicture, 'message' => 'Successful login');
 
         $stmt->close();
         $conn->close();
-        return array('status' => 'SUCCESS', 'response' => $response);
+        
+        if (password_verify($password, $passwordHash)) {
+          $response = array('firstName' => $firstName, 'lastName' => $lastName,
+                              'profilePicture' => $profilePicture, 'message' => 'Successful login');
+          return array('status' => 'SUCCESS', 'response' => $response);
+        } else {
+          return array('status' => 'NOT_FOUND', 'code' => 406);
+        }
       }
       
       else {
